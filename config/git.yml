@@ -1,0 +1,55 @@
+git_add:
+  symbol: git_add
+  candidate: git status --short
+  fzf_options: --ansi --multi --prompt 'Git Add Files> '
+  preview: $FZF_PREVIEW_BIN_PATH/git-diff-preview {}
+  callback: awk '{if (substr(\$0,2,1) !~ / /) print \$2}'
+
+git_branch:
+  symbol: git_branch
+  candidate: git for-each-ref refs/heads refs/remotes --format='[branch] %(refname:short)' 2> /dev/null
+  fzf_options: --ansi --multi --prompt 'Git Branch> '
+  preview: git log \$(echo {} | awk '{ print \$2 }') --graph --color=always 2>/dev/null
+  callback: awk '{ print \$2 }'
+
+git_reset_file:
+  symbol: git_reset_file
+  candidate: git status --short
+  fzf_options: --ansi --multi --prompt 'Git Reset Files> '
+  preview: $FZF_PREVIEW_BIN_PATH/git-diff-preview {}
+  callback: awk '{if (substr(\$0,1,1) ~ /M|A|D/) print \$2}'
+
+git_reset_branch:
+  symbol: git_reset
+  candidate: git for-each-ref refs/heads refs/remotes --format='[branch] %(refname:short)' 2> /dev/null && git for-each-ref refs/tags --format='[tag] %(refname:short)' --sort=-version:refname 2> /dev/null && git log --format='[commit] %h %s' 2> /dev/null
+  fzf_options: --no-sort --ansi --multi --prompt 'Git Reset Branch> '
+  preview: git show --color=always \$(echo {} | awk '{ print \$2 }') 2>/dev/null
+  callback: awk '{ print \$2 }'
+
+git_diff_file:
+  symbol: git_diff_file
+  candidate: git status --short
+  fzf_options: --ansi --multi --prompt 'Git Diff Files> '
+  preview: $FZF_PREVIEW_BIN_PATH/git-diff-preview {}
+  callback: awk '{ print \$2 }'
+
+git_diff_branch:
+  symbol: git_diff_file
+  candidate: git for-each-ref refs/heads refs/remotes --format='[branch] %(refname:short)' 2> /dev/null && git for-each-ref refs/tags --format='[tag] %(refname:short)' --sort=-version:refname 2> /dev/null && git log --format='[commit] %h %s' 2> /dev/null
+  fzf_options: --no-sort --ansi --multi --prompt 'Git Diff Branch> '
+  preview: git diff --color=always {2}
+  callback: awk '{ print \$2 }'
+
+git_checkout_file:
+  symbol: git_checkout_file
+  candidate: git status --short
+  fzf_options: --ansi --multi --prompt 'Git Checkout Files> '
+  preview: $FZF_PREVIEW_BIN_PATH/git-diff-preview {}
+  callback: awk '{if (substr(\$0,1,1) ~ /M|A|D/) print \$2}'
+
+git_checkout_branch:
+  symbol: git_checkout_branch
+  candidate: git for-each-ref refs/heads refs/remotes --format='[branch] %(refname:short)' 2> /dev/null && git for-each-ref refs/tags --format='[tag] %(refname:short)' --sort=-version:refname 2> /dev/null && git log --format='[commit] %h %s' 2> /dev/null
+  fzf_options: --no-sort --ansi --multi --prompt "Git Checkout> "
+  preview: ([[ '{1}' == '[branch]' ]] && git log {2} --pretty='format:%C(yellow)%h %C(green)%cd %C(reset)%s %C(red)%d %C(cyan)[%an]' --date=iso --graph --color=always) || ([[ '{1}' == '[commit]' ]] && git show --color=always {2})
+  callback: awk '{ print \$2 }'

@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+
+if [[ $1 == "" ]]; then
+  exit
+fi
+
+file=$(echo "$1" | awk '{if (substr($0,1,1) ~ /??|M|A|D/) print $2}')
+
+if [[ -n $(git ls-files "$file") ]]; then
+  if [[ $2 == "--cached" ]]; then
+    git diff --cached --color=always -- "$file"
+  else
+    git diff --color=always -- "$file"
+  fi
+else
+  if which bat > /dev/null 2>&1; then
+    bat --color=always --style=grid "$file"
+  else
+    cat "$file"
+  fi
+fi

@@ -1,0 +1,22 @@
+gh_issue:
+  symbol: gh_issue
+  candidate: gh issue list --limit 100
+  fzf_options: --ansi --prompt='Issue> ' --header='C-o":" open, C-c":" closed, C-a":" all'
+  preview: gh issue view {1}
+  bind:
+    - ctrl-o:reload(gh issue list --limit 100 --state open)
+    - ctrl-c:reload(gh issue list --limit 100 --state closed)
+    - ctrl-a:reload(gh issue list --limit 100 --state all)
+  callback: awk '{ print \$1 }' | cut -c 2-
+
+gh_pr:
+  symbol: gh_pr
+  candidate: gh pr list --limit 100
+  fzf_options: --ansi --prompt='PullRequest> ' --header='C-o":" open, C-c":" closed, C-m":" merged, C-a":" all'
+  preview: gh pr view {1}
+  bind:
+    - ctrl-o:reload(gh pr list --limit 100 --state open)
+    - ctrl-c:reload(gh pr list --limit 100 --state closed)
+    - ctrl-m:reload(gh pr list --limit 100 --state merged)
+    - ctrl-a:reload(gh pr list --limit 100 --state all)
+  callback: awk '{ print \$1 }'
