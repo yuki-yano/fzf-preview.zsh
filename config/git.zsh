@@ -1,19 +1,59 @@
-fzf_preview_commands['git add']="git_add"
+function git_add() {
+  local id="git_add"
 
-fzf_preview_commands['git branch -d']="git_branch"
-fzf_preview_commands['git branch -D']="git_branch"
+  local candidate_command="git status --short"
 
-fzf_preview_commands['git reset --']="git_reset_file"
+  local -a fzf_options
+  fzf_options+=("--ansi")
+  fzf_options+=("--multi")
+  fzf_options+=("--height=100%")
+  fzf_options+=("--prompt='Git Add Files> '")
+  fzf_options+=("--preview='$FZF_PREVIEW_BIN_PATH/git-diff-preview {}'")
 
-fzf_preview_commands['git reset']="git_reset_branch"
-fzf_preview_commands['git reset --hard']="git_reset_branch"
-fzf_preview_commands['git reset --soft']="git_reset_branch"
+  local callback=("awk '{if (substr(\$0,2,1) !~ / /) print \$2}'")
 
-fzf_preview_commands['git diff --']="git_diff_file"
-fzf_preview_commands['git diff']="git_diff_branch"
+  local complete_func_name="_fzf_complete_${id}"
+  _create_complete_func $complete_func_name  "${callback}"
+  FZF_COMPLETION_OPTS=${(j: :)${fzf_options}}
+  eval $complete_func_name "\"${candidate_command}\""
+}
 
-fzf_preview_commands['git checkout --']="git_checkout_file"
+function git_branch() {
+  local id="git_branch"
 
-fzf_preview_commands['git checkout']="git_checkout_branch"
-fzf_preview_commands['git checkout -t']="git_checkout_branch"
+  local candidate_command="git for-each-ref refs/heads refs/remotes --format='[branch] %(refname:short)' 2> /dev/null"
 
+  local -a fzf_options
+  fzf_options+=("--ansi")
+  fzf_options+=("--multi")
+  fzf_options+=("--height=100%")
+  fzf_options+=("--prompt='Git Branch> '")
+  fzf_options+=("--preview=\"git log \$(echo {} | awk '{ print \$2 }') --graph --color=always 2>/dev/null\"")
+
+  local callback=("awk '{ print \$2 }'")
+
+  local complete_func_name="_fzf_complete_${id}"
+  _create_complete_func $complete_func_name  "${callback}"
+  FZF_COMPLETION_OPTS=${(j: :)${fzf_options}}
+  eval $complete_func_name "\"${candidate_command}\""
+}
+
+function git_reset_file() {
+  local id="git_reset_file"
+
+  local candidate_command="git status --short"
+
+  local -a fzf_options
+  fzf_options+=("--ansi")
+  fzf_options+=("--multi")
+  fzf_options+=("--height=100%")
+  fzf_options+=("--prompt='Git Reset Files> '")
+  fzf_options+=("--preview='$FZF_PREVIEW_BIN_PATH/git-diff-preview {}'")
+
+  local callback=("awk '{if (substr(\$0,1,1) ~ /M|A|D/) print \$2}'")
+
+  local complete_func_name="_fzf_complete_${id}"
+  _create_complete_func $complete_func_name  "${callback}"
+  FZF_COMPLETION_OPTS=${(j: :)${fzf_options}}
+  eval $complete_func_name "\"${candidate_command}\""
+}
