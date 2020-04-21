@@ -7,6 +7,8 @@ function ${complete_func_name} () {
   local candidate_command=\$1
   local candidates=\$(eval \$candidate_command)
   _fzf_complete '' "\$BUFFER" < <( echo \$candidates )
+  BUFFER=\${BUFFER//\#/}
+  zle reset-prompt
 }
 EOS
 )

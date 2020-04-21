@@ -1,7 +1,7 @@
 #autoload
 
-typeset id="gh_pr"
-typeset candidate_command="gh pr list --limit 100"
+typeset id="gh_my_pr"
+typeset candidate_command="gh pr list --limit 100 --assignee=\$FZF_PREVIEW_GITHUB_USER"
 typeset -a fzf_options=(
   "--no-sort"
   "--ansi"
@@ -14,10 +14,10 @@ typeset -a fzf_options=(
 
 typeset -a bind=(
   "${FZF_PREVIEW_DEFAULT_BIND}"
-  "ctrl-o:reload(gh pr list --limit 100 --state open)"
-  "ctrl-e:reload(gh pr list --limit 100 --state merged)"
-  "ctrl-c:reload(gh pr list --limit 100 --state closed)"
-  "ctrl-a:reload(gh pr list --limit 100 --state all)"
+  "ctrl-o:reload(gh pr list --limit 100 --state open --assignee=\$FZF_PREVIEW_GITHUB_USER)"
+  "ctrl-e:reload(gh pr list --limit 100 --state merged --assignee=\$FZF_PREVIEW_GITHUB_USER)"
+  "ctrl-c:reload(gh pr list --limit 100 --state closed --assignee=\$FZF_PREVIEW_GITHUB_USER)"
+  "ctrl-a:reload(gh pr list --limit 100 --state all --assignee=\$FZF_PREVIEW_GITHUB_USER)"
 )
 
 fzf_options+=("--bind=\"${(j:,:)bind}\"")
