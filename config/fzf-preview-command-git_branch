@@ -1,0 +1,25 @@
+#autoload
+
+typeset id="git_branch"
+typeset candidate_command="git for-each-ref refs/heads refs/remotes --format='[branch] %(refname:short)' 2> /dev/null"
+typeset -a fzf_options=(
+  "--no-sort"
+  "--ansi"
+  "--multi"
+  "--height=100%"
+  "--prompt='Git Branch> '"
+  "--preview=\"git log \$(echo {} | awk '{ print \$2 }') --graph --color=always 2>/dev/null\""
+)
+
+typeset -a bind=(
+  "${FZF_PREVIEW_DEFAULT_BIND}"
+)
+
+fzf_options+=("--bind=\"${(j:,:)bind}\"")
+
+typeset callback=(awk '{ print \$2 }')
+
+typeset complete_func_name="_fzf_complete_${id}"
+_create_complete_func $complete_func_name  "${callback}"
+FZF_COMPLETION_OPTS=${(j: :)fzf_options}
+eval $complete_func_name "\"${candidate_command}\""

@@ -1,0 +1,30 @@
+#autoload
+
+typeset id="gh_pr"
+typeset candidate_command="gh pr list --limit 100"
+typeset -a fzf_options=(
+  "--no-sort"
+  "--ansi"
+  "--multi"
+  "--height=100%"
+  "--prompt='Pull Request> '"
+  "--header='C-o: open, C-c: closed, C-m: merged, C-a: all'"
+  "--preview=\"gh pr view {1}\""
+)
+
+typeset -a bind=(
+  "${FZF_PREVIEW_DEFAULT_BIND}"
+  "ctrl-o:reload(gh pr list --limit 100 --state open)"
+  "ctrl-c:reload(gh pr list --limit 100 --state closed)"
+  "ctrl-m:reload(gh pr list --limit 100 --state merged)"
+  "ctrl-a:reload(gh pr list --limit 100 --state all)"
+)
+
+fzf_options+=("--bind=\"${(j:,:)bind}\"")
+
+typeset callback=("awk '{ print \$1 }'")
+
+typeset complete_func_name="_fzf_complete_${id}"
+_create_complete_func $complete_func_name  "${callback}"
+FZF_COMPLETION_OPTS=${(j: :)fzf_options}
+eval $complete_func_name "\"${candidate_command}\""

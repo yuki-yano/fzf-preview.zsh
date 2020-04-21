@@ -12,18 +12,7 @@ function _fzf-or-normal-completion() {
   local tokens=(${(z)BUFFER})
   local command=${tokens[1]}
 
-  local -a settings
-  for f in $FZF_PREVIEW_CONFIG_DIR/**/*.zsh(D); do
-    settings+=("${${f##*/}%.*}")
-  done
-  unset f
-
-  if [[ $FZF_PREVIEW_USER_CONFIG_DIR != '' ]]; then
-    for f in $FZF_PREVIEW_USER_CONFIG_DIR/**/*.yml(D); do
-      settings+=("${${f##*/}%.*}")
-    done
-  fi
-  unset f
+  local -a settings=(git gh)
 
   if (( $settings[(I)$command] )); then
     zle fzf-completion-selector $command

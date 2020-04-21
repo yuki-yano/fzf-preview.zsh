@@ -1,0 +1,8 @@
+#autoload
+
+typeset -g -A symbols
+
+symbols=(
+  '(^gh issue view( --web)?$)' gh_issue
+  '(^gh pr view( --web)?$)'    gh_pr
+)
