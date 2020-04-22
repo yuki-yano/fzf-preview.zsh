@@ -11,14 +11,7 @@ function _fzf-or-normal-completion() {
 
   local tokens=(${(z)BUFFER})
   local command=${tokens[1]}
-
-  local -a settings=(git gh)
-
-  if (( $settings[(I)$command] )); then
-    zle fzf-completion-selector $command
-  else
-    zle expand-or-complete
-  fi
+  zle fzf-completion-selector $command
 }
 
 zle -N fzf-or-normal-completion _fzf-or-normal-completion
