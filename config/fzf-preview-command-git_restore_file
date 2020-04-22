@@ -2,12 +2,13 @@
 
 typeset id="git_restore_file"
 typeset candidate_command="git status --short"
+typeset preview='[[ $(git diff -- {-1}) != "" ]] && git diff --color=always -- {-1} || [[ $(git diff --cached -- {-1}) != "" ]] && git diff --cached --color=always -- {-1} || bat --color=always --style=grid
 typeset -a fzf_options=(
   "--ansi"
   "--multi"
   "--height=100%"
   "--prompt='Git Reset Files> '"
-  "--preview='$FZF_PREVIEW_BIN_PATH/git-diff-preview {}'"
+  "--preview='${preview}'"
 )
 
 typeset -a bind=(

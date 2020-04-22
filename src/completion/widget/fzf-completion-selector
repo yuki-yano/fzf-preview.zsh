@@ -3,7 +3,10 @@
 setopt local_options BASH_REMATCH
 
 local command=$1
-eval "fzf-preview-symbol-${command}"
+local symbol_command="fzf-preview-symbol-${command}"
+if which $symbol_command > /dev/null 2>&1; then
+  eval "fzf-preview-symbol-${command}"
+fi
 
 
 for regex in ${(k)symbols}; do
