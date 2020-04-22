@@ -3,8 +3,19 @@ FZF_PREVIEW_CONFIG_DIR="${0:a:h}/config"
 FZF_PREVIEW_USER_CONFIG_DIR=${FZF_PREVIEW_USER_CONFIG_DIR:-''}
 FZF_PREVIEW_DEFAULT_BIND=${FZF_PREVIEW_DEFAULT_BIND:-'ctrl-d:preview-page-down,ctrl-u:preview-page-up,?:toggle-preview'}
 
-for f in ${0:h}/src/**/*.zsh(D); do
-  source "$f"
+fpath+=${0:a:h}/src/completion
+for f in ${0:h}/src/completion/*(N-.); do
+  local function_name="${f:t}"
+  autoload -Uz -- "${function_name}"
+  zle -N -- "${function_name}"
+done
+unset f
+
+fpath+=${0:a:h}/src/completion/widget
+for f in ${0:h}/src/completion/widget/*(N-.); do
+  local function_name="${f:t}"
+  autoload -Uz -- "${function_name}"
+  zle -N -- "${function_name}"
 done
 unset f
 

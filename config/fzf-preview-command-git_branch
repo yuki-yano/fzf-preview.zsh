@@ -20,6 +20,6 @@ fzf_options+=("--bind=\"${(j:,:)bind}\"")
 typeset callback=(awk '{ print \$2 }')
 
 typeset complete_func_name="_fzf_complete_${id}"
-_create_complete_func $complete_func_name  "${callback}"
+complete_func_creator $complete_func_name  "${callback}"
 FZF_COMPLETION_OPTS=${(j: :)fzf_options}
 eval $complete_func_name "\"${candidate_command}\""
