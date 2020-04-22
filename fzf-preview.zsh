@@ -20,14 +20,16 @@ unset f
 
 fpath+=${0:a:h}/config
 for f in ${0:h}/config/*(N-.); do
-  autoload -Uz $f
+  local function_name="${f:t}"
+  autoload -Uz -- "${function_name}"
 done
 unset f
 
 if [[ $FZF_PREVIEW_USER_CONFIG_DIR != '' ]]; then
   fpath+=$FZF_PREVIEW_USER_CONFIG_DIR
   for f in $FZF_PREVIEW_USER_CONFIG_DIR/*(N-.); do
-    autoload -Uz $f
+    local function_name="${f:t}"
+    autoload -Uz -- "${function_name}"
   done
 fi
 unset f
