@@ -7,7 +7,7 @@ typeset -a fzf_options=(
   "--multi"
   "--height=100%"
   "--prompt='Git Diff Files> '"
-  "--preview='$FZF_PREVIEW_BIN_PATH/git-diff-preview {}'"
+  "--preview='${diff_preview_command}'"
 )
 
 typeset -a bind=(

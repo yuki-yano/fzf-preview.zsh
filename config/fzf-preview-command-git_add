@@ -2,13 +2,12 @@
 
 typeset id="git_add"
 typeset candidate_command="git status --short"
-typeset preview='[[ $(git diff -- {-1}) != "" ]] && git diff --color=always -- {-1} || [[ $(git diff --cached -- {-1}) != "" ]] && git diff --cached --color=always -- {-1} || bat --color=always --style=grid --theme=ansi-dark {-1}'
 typeset -a fzf_options=(
   "--ansi"
   "--multi"
   "--height=100%"
   "--prompt='Git Add Files> '"
-  "--preview='${preview}'"
+  "--preview='${diff_preview_command}'"
 )
 
 typeset -a bind=(
