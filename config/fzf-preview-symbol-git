@@ -1,6 +1,5 @@
 #autoload
 
-{
 typeset -g -A symbols
 
 symbols=(
@@ -13,4 +12,3 @@ symbols=(
   '(^git checkout ([0-9a-zA-Z\_\.\/\-]* )?--$)' git_ls_files
   '(^git checkout( -t)?$)'                      git_checkout_branch
 )
-}
