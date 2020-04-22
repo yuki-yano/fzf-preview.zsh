@@ -4,10 +4,14 @@ setopt local_options BASH_REMATCH
 
 local command=$1
 local symbol_command="fzf-preview-symbol-${command}"
+local user_symbol_command="symbol-${command}"
 if which $symbol_command > /dev/null 2>&1; then
-  eval "fzf-preview-symbol-${command}"
+  eval $symbol_command
 fi
 
+if which $user_symbol_command > /dev/null 2>&1; then
+  eval $user_symbol_command
+fi
 
 for regex in ${(k)symbols}; do
   [[ ${LBUFFER/%?/} =~ $regex ]]
@@ -17,9 +21,17 @@ for regex in ${(k)symbols}; do
   unset BASH_REMATCH
 done
 
-local completion_function="fzf-preview-command-${symbol}"
-if [[ $symbol != "" ]] && which $completion_function > /dev/null 2>&1; then
-  eval "fzf-preview-command-${symbol}"
+if [[ $symbol != "" ]]; then
+  local completion_function="fzf-preview-command-${symbol}"
+  local user_completion_function="command-${symbol}"
+
+  if which $completion_function > /dev/null 2>&1; then
+    eval $completion_function
+  fi
+
+  if which $user_completion_function > /dev/null 2>&1; then
+    eval $user_completion_function
+  fi
 else
   zle expand-or-complete
 fi

@@ -1,18 +1,16 @@
 #autoload
 
-typeset -g diff_preview_command='[[ $(git diff -- {-1}) != "" ]] && git diff --color=always -- {-1} || [[ $(git diff --cached -- {-1}) != "" ]] && git diff --cached --color=always -- {-1} || bat --color=always --style=grid --theme=ansi-dark {-1}'
+typeset -g git_diff_preview_command='[[ $(git diff -- {-1}) != "" ]] && git diff --color=always -- {-1} || [[ $(git diff --cached -- {-1}) != "" ]] && git diff --cached --color=always -- {-1} || bat --color=always --style=grid --theme=ansi-dark {-1}'
 
-function fzf-preview-symbol-git() {
-  typeset -g -A symbols
+typeset -g -A symbols=()
 
-  symbols=(
-    '(^git add$)'                                 git_add
-    '(^git branch -(d|D)$)'                       git_branch
-    '(^git reset( --soft| --hard)?$)'             git_branch
-    '(^git reset --$)'                            git_restore_file
-    '(^git diff --$)'                             git_diff_file
-    '(^git diff( --cached)?$)'                    git_diff_branch
-    '(^git checkout ([0-9a-zA-Z\_\.\/\-]* )?--$)' git_ls_files
-    '(^git checkout( -t)?$)'                      git_checkout_branch
-  )
-}
+symbols+=(
+  '(^git add$)'                                 git_add
+  '(^git branch -(d|D)$)'                       git_branch
+  '(^git reset( --soft| --hard)?$)'             git_branch
+  '(^git reset --$)'                            git_restore_file
+  '(^git diff --$)'                             git_diff_file
+  '(^git diff( --cached)?$)'                    git_diff_branch
+  '(^git checkout ([0-9a-zA-Z\_\.\/\-]* )?--$)' git_ls_files
+  '(^git checkout( -t)?$)'                      git_checkout_branch
+)

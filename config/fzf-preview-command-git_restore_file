@@ -8,7 +8,7 @@ typeset -a fzf_options=(
   "--multi"
   "--height=100%"
   "--prompt='Git Reset Files> '"
-  "--preview='${diff_preview_command}'"
+  "--preview='${git_diff_preview_command}'"
 )
 
 typeset -a bind=(
