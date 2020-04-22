@@ -1,10 +1,12 @@
 #autoload
 
-typeset -g -A symbols
+function fzf-preview-symbol-gh() {
+  typeset -g -A symbols
 
-symbols=(
-  '(^gh issue view( --web)?$)'    gh_issue
-  '(^gh pr view( --web)?$)'       gh_pr
-  '(^gh issue view( --web)? \#$)' gh_my_issue
-  '(^gh pr view( --web)? \#$)'    gh_my_pr
-)
+  symbols=(
+    '(^gh issue view( --web)?$)'    gh_issue
+    '(^gh pr view( --web)?$)'       gh_pr
+    '(^gh issue view( --web)? \#$)' gh_my_issue
+    '(^gh pr view( --web)? \#$)'    gh_my_pr
+  )
+}
