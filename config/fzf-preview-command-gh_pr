@@ -27,4 +27,4 @@ typeset callback=("awk '{ print \$1 }'")
 typeset complete_func_name="_fzf_complete_${id}"
 complete_func_creator $complete_func_name  "${callback}"
 FZF_COMPLETION_OPTS=${(j: :)fzf_options}
-eval $complete_func_name "\"${candidate_command}\""
+$complete_func_name "${candidate_command}"

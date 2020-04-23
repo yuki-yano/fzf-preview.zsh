@@ -6,11 +6,11 @@ local command=$1
 local symbol_command="fzf-preview-symbol-${command}"
 local user_symbol_command="symbol-${command}"
 if which $symbol_command > /dev/null 2>&1; then
-  eval $symbol_command
+  $symbol_command
 fi
 
 if which $user_symbol_command > /dev/null 2>&1; then
-  eval $user_symbol_command
+  $user_symbol_command
 fi
 
 for regex in "${(@k)symbols}"; do
@@ -26,11 +26,11 @@ if [[ $symbol != "" ]]; then
   local user_completion_function="command-${symbol}"
 
   if which $completion_function > /dev/null 2>&1; then
-    eval $completion_function
+    $completion_function
   fi
 
   if which $user_completion_function > /dev/null 2>&1; then
-    eval $user_completion_function
+    $user_completion_function
   fi
 else
   zle expand-or-complete
