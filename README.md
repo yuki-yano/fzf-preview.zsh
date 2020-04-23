@@ -18,6 +18,7 @@ $ git add <Tab>
 
 - [junegunn/fzf: A command-line fuzzy finder](https://github.com/junegunn/fzf)
 - [sharkdp/bat: A cat(1) clone with wings.](https://github.com/sharkdp/bat)
+- [ogham/exa: A modern version of ‘ls’.](https://github.com/ogham/exa)
 
 ## Installation
 
