@@ -15,5 +15,5 @@ symbols+=(
   '(^git checkout( -t)?$)'                         git_checkout_branch
   '(^git revert ([0-9a-zA-Z\_\.\/\-]* )?--$)$)'    git_checkout_branch
   '(^git rebase$)'                                 git_branch
-  '(^git stash pop$)'                              git_stash
+  '(^git stash (show|pop)$)'                       git_stash
 )
