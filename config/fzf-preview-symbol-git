@@ -5,12 +5,15 @@ typeset -g git_diff_preview_command='[[ $(git diff -- {-1}) != "" ]] && git diff
 typeset -g -A symbols=()
 
 symbols+=(
-  '(^git add$)'                                 git_add
-  '(^git branch -(d|D)$)'                       git_branch
-  '(^git reset( --soft| --hard)?$)'             git_branch
-  '(^git reset --$)'                            git_restore_file
-  '(^git diff --$)'                             git_diff_file
-  '(^git diff( --cached)?$)'                    git_diff_branch
-  '(^git checkout ([0-9a-zA-Z\_\.\/\-]* )?--$)' git_ls_files
-  '(^git checkout( -t)?$)'                      git_checkout_branch
+  '(^git add(( -(n|p))*| --(dry-run|patch))*$)'    git_add
+  '(^git branch( --(merged|remotes))* (-(d|D))?$)' git_branch
+  '(^git reset( --soft| --hard)?$)'                git_branch
+  '(^git reset --$)'                               git_restore_file
+  '(^git diff --$)'                                git_diff_file
+  '(^git diff( --cached)?$)'                       git_diff_branch
+  '(^git checkout ([0-9a-zA-Z\_\.\/\-]* )?--$)'    git_ls_files
+  '(^git checkout( -t)?$)'                         git_checkout_branch
+  '(^git revert ([0-9a-zA-Z\_\.\/\-]* )?--$)$)'    git_checkout_branch
+  '(^git rebase$)'                                 git_branch
+  '(^git stash pop$)'                              git_stash
 )
