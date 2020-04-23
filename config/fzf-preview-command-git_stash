@@ -4,10 +4,10 @@ typeset id="git_stash"
 typeset candidate_command="git stash list"
 typeset -a fzf_options=(
   "--ansi"
-  "--multi"
+  "--delimiter=':'"
   "--height=100%"
   "--prompt='Git Stash> '"
-  "--preview='git show --color=always $({-1} | cut -c 3)'"
+  '--preview="git show --patch --color=always {1}"'
 )
 
 typeset -a bind=(
@@ -16,7 +16,7 @@ typeset -a bind=(
 
 fzf_options+=("--bind=\"${(j:,:)bind}\"")
 
-typeset callback=("cut -d':' -f3")
+typeset callback=("\"$(cut -d':' -f1)\"")
 
 typeset complete_func_name="_fzf_complete_${id}"
 complete_func_creator $complete_func_name  "${callback}"
