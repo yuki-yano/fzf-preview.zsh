@@ -13,7 +13,7 @@ if which $user_symbol_command > /dev/null 2>&1; then
   eval $user_symbol_command
 fi
 
-for regex in ${(k)symbols}; do
+for regex in "${(@k)symbols}"; do
   [[ $LBUFFER =~ $regex ]]
   if [[ ${BASH_REMATCH[1]} != "" ]]; then
     local symbol=$symbols[$regex]
