@@ -1,0 +1,24 @@
+#autoload
+
+local id="git_stash"
+local candidate_command="git stash list"
+local -a fzf_options=(
+  "${FZF_PREVIEW_DEFAULT_SETTING}"
+  "--ansi"
+  "--delimiter=':'"
+  "--prompt='Git Stash> '"
+  '--preview="git show --patch --color=always {1}"'
+)
+
+local -a bind=(
+  "${FZF_PREVIEW_DEFAULT_BIND}"
+)
+
+fzf_options+=("--bind=\"${(j:,:)bind}\"")
+
+local callback=('awk -F: "{ print \$1 }" | xargs -I{} echo "\"{}\""')
+
+local complete_func_name="_fzf_complete_${id}"
+complete_func_creator $complete_func_name  "${callback}"
+FZF_COMPLETION_OPTS=${(j: :)fzf_options}
+$complete_func_name "${candidate_command}"

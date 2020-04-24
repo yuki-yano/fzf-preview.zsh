@@ -1,0 +1,25 @@
+#autoload
+
+local id="git_commit"
+local candidate_command=${create_candidate_git_log_command}
+
+local -a fzf_options=(
+  "${FZF_PREVIEW_DEFAULT_SETTING}"
+  "--no-sort"
+  "--ansi"
+  "--prompt='Git Fixup> '"
+  "--preview=\"[[ '{1}' == '[commit]' ]] && git show --color=always {2}\""
+)
+
+local -a bind=(
+  "${FZF_PREVIEW_DEFAULT_BIND}"
+)
+
+fzf_options+=("--bind=\"${(j:,:)bind}\"")
+
+local callback=("awk '{ print \$2 }'")
+
+local complete_func_name="_fzf_complete_${id}"
+complete_func_creator $complete_func_name  "${callback}"
+FZF_COMPLETION_OPTS=${(j: :)fzf_options}
+eval $complete_func_name "\"${candidate_command}\""

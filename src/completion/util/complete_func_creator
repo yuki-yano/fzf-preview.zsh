@@ -1,0 +1,12 @@
+#autoload
+
+local complete_func_name=$1
+local callback=$2
+
+function ${complete_func_name} () {
+  local candidate_command=$1
+  _fzf_complete '' "$BUFFER" < <(eval $candidate_command)
+  zle reset-prompt
+}
+
+eval "function ${complete_func_name}_post () { ${callback} }"

@@ -1,0 +1,24 @@
+#autoload
+
+local id="git_cherry_pick"
+local candidate_command="${create_candidate_all_git_log_command}"
+local -a fzf_options=(
+  "${FZF_PREVIEW_DEFAULT_SETTING}"
+  "--ansi"
+  "--multi"
+  "--prompt='Git Cherry Pick> '"
+  "--preview=\"git show --color=always {3}\""
+)
+
+local -a bind=(
+  "${FZF_PREVIEW_DEFAULT_BIND}"
+)
+
+fzf_options+=("--bind=\"${(j:,:)bind}\"")
+
+local callback=("awk '{ print \$3 }'")
+
+local complete_func_name="_fzf_complete_${id}"
+complete_func_creator $complete_func_name  "${callback}"
+FZF_COMPLETION_OPTS=${(j: :)fzf_options}
+eval $complete_func_name "\"${candidate_command}\""

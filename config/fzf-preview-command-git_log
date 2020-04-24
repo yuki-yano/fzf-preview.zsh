@@ -1,0 +1,28 @@
+#autoload
+
+local id="git_log"
+local candidate_command=$create_candidate_git_ls_files_command
+local -a fzf_options=(
+  "${FZF_PREVIEW_DEFAULT_SETTING}"
+  "--ansi"
+  "--multi"
+  "--prompt='Git Log> '"
+  "--header='C-f: file, C-b: branch, C-t: tag'"
+  "--preview=\"[[ '{1}' == '[file]' ]] && git log --color=always --oneline --stat -p {2} || [[ '{1}' == '[branch]' ]] && git log {2} --decorate --pretty='format:%C(yellow)%h %C(green)%cd %C(reset)%s %C(red)%d %C(cyan)[%an]' --date=iso --graph --color=always || [[ '{1}' == '[tag]' ]] && git log {2} --pretty='format:%C(yellow)%h %C(green)%cd %C(reset)%s %C(red)%d %C(cyan)[%an]' --date=iso --graph --color=always  || [[ '{1}' == '[commit]' ]] && git show --color=always {2}\""
+)
+
+local -a bind=(
+  "${FZF_PREVIEW_DEFAULT_BIND}"
+  "ctrl-f:reload(${create_candidate_git_ls_files_command})"
+  "ctrl-b:reload(${create_candidate_git_branch_command})"
+  "ctrl-t:reload(${create_candidate_git_tag_command})"
+)
+
+fzf_options+=("--bind=\"${(j:,:)bind}\"")
+
+local callback=("awk '{ print \$2 }'")
+
+local complete_func_name="_fzf_complete_${id}"
+complete_func_creator $complete_func_name  "${callback}"
+FZF_COMPLETION_OPTS=${(j: :)fzf_options}
+$complete_func_name "${candidate_command}"
