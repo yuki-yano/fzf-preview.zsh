@@ -1,19 +1,26 @@
 #autoload
 
-typeset -g git_diff_preview_command='[[ $(git diff -- {-1}) != "" ]] && git diff --color=always -- {-1} || [[ $(git diff --cached -- {-1}) != "" ]] && git diff --cached --color=always -- {-1} || bat --color=always --style=grid --theme=ansi-dark {-1} >/dev/null 2>&1 || exa --color=always --tree {-1}'
+typeset -g git_diff_preview_command='[[ {-1} == "" ]] && return || [[ $(git diff -- {-1}) ]] && git diff --color=always -- {-1} || [[ $(git diff --cached -- {-1} ) ]] && git diff --cached --color=always -- {-1} || bat --color=always --style=grid --theme=ansi-dark {-1} 2>/dev/null || exa --color=always --tree {-1} 2>/dev/null'
+
+typeset -g git_branch_format="git for-each-ref refs/heads refs/remotes --color=always --format='%(color:green)[branch] %(color:reset)%(color:magenta)%(objectname:short)%(color:reset) %(color:yellow)%(authordate:short)%09%(color:reset) %(color:blue)[%(authorname)]%(color:reset)%09%(refname) ' 2> /dev/null"
+
+typeset -g git_tag_format="git for-each-ref refs/tags --color=always --format='%(color:green)[tag]    %(color:reset)%(color:magenta)%(objectname:short)%(color:reset) %(color:yellow)%(authordate:short) %(color:reset) %(color:blue)[%(authorname)]%(color:reset)%09%(refname) ' 2> /dev/null"
+
+typeset -g git_log_format="git log --color=always --format='%C(green)[commit]%Creset %C(magenta)%h%Creset %C(yellow)%cr %x09%Creset [%C(blue)%an%Creset] %x09%C(auto)%s %d' 2> /dev/null"
 
 typeset -g -A symbols=()
 
 symbols+=(
-  '(^git add(( -(n|p))*| --(dry-run|patch))*$)'    git_add
-  '(^git branch( --(merged|remotes))* (-(d|D))?$)' git_branch
-  '(^git reset( --soft| --hard)?$)'                git_branch
-  '(^git reset --$)'                               git_restore_file
-  '(^git diff --$)'                                git_diff_file
-  '(^git diff( --cached)?$)'                       git_diff_branch
-  '(^git checkout ([0-9a-zA-Z\_\.\/\-]* )?--$)'    git_ls_files
-  '(^git checkout( -t)?$)'                         git_checkout_branch
-  '(^git revert ([0-9a-zA-Z\_\.\/\-]* )?--$)$)'    git_checkout_branch
-  '(^git rebase$)'                                 git_branch
-  '(^git stash (show|pop|drop)$)'                  git_stash
+  '(^git add(( -(n|p))*| --(dry-run|patch))* $)'        git_add
+  '(^git branch( --(merged|remotes))? (-(m|M|d|D))? $)' git_checkout_branch
+  '(^git reset( --soft| --hard)? $)'                    git_checkout_branch
+  '(^git reset -- $)'                                   git_restore_file
+  '(^git diff( --color-words)? -- $)'                   git_diff_file
+  '(^git diff( --cached)?( --color-words)? $)'          git_diff_branch
+  '(^git checkout ([0-9a-zA-Z\_\.\/\-]* )?-- $)'        git_ls_files
+  '(^git checkout( -t)? $)'                             git_checkout_branch
+  '(^git revert ([0-9a-zA-Z\_\.\/\-]* )?--$) $)'        git_checkout_branch
+  '(^git rebase( -i)?( --autostash)? $)'                git_checkout_branch
+  '(^git stash (show|pop|drop) $)'                      git_stash
+  '(^git commit --fixup $)'                             git_commit
 )

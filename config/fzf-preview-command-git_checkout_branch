@@ -1,18 +1,21 @@
 #autoload
 
 typeset id="git_checkout_branch"
-typeset candidate_command="git for-each-ref refs/heads refs/remotes --format='[branch] %(refname:short)' 2> /dev/null && git for-each-ref refs/tags --format='[tag] %(refname:short)' --sort=-version:refname 2> /dev/null && git log --format='[commit] %h %s' 2> /dev/null"
+typeset candidate_command="${git_branch_format}"
 typeset -a fzf_options=(
-  "--no-sort"
   "--ansi"
   "--multi"
   "--height=100%"
   "--prompt='Git Checkout> '"
-  "--preview=\"([[ '{1}' == '[branch]' ]] && git log {2} --pretty='format:%C(yellow)%h %C(green)%cd %C(reset)%s %C(red)%d %C(cyan)[%an]' --date=iso --graph --color=always) || ([[ '{1}' == '[commit]' ]] && git show --color=always {2})\""
+  "--header='C-b: branch, C-c: commit, C-t: tag'"
+  "--preview=\"[[ '{1}' == '[branch]' ]] && git log {2} --pretty='format:%C(yellow)%h %C(green)%cd %C(reset)%s %C(red)%d %C(cyan)[%an]' --date=iso --graph --color=always || [[ '{1}' == '[tag]' ]] && git log {2} --pretty='format:%C(yellow)%h %C(green)%cd %C(reset)%s %C(red)%d %C(cyan)[%an]' --date=iso --graph --color=always  || [[ '{1}' == '[commit]' ]] && git show --color=always {2}\""
 )
 
 typeset -a bind=(
   "${FZF_PREVIEW_DEFAULT_BIND}"
+  "ctrl-b:reload(${git_branch_format})"
+  "ctrl-c:reload(${git_log_format})"
+  "ctrl-t:reload(${git_tag_format})"
 )
 
 fzf_options+=("--bind=\"${(j:,:)bind}\"")
@@ -23,4 +26,3 @@ typeset complete_func_name="_fzf_complete_${id}"
 complete_func_creator $complete_func_name  "${callback}"
 FZF_COMPLETION_OPTS=${(j: :)fzf_options}
 eval $complete_func_name "\"${candidate_command}\""
-
