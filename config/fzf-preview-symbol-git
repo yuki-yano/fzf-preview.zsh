@@ -2,11 +2,11 @@
 
 typeset -g git_diff_preview_command='[[ {-1} == "" ]] && return || [[ $(git diff -- {-1}) ]] && git diff --color=always -- {-1} || [[ $(git diff --cached -- {-1} ) ]] && git diff --cached --color=always -- {-1} || bat --color=always --style=grid --theme=ansi-dark {-1} 2>/dev/null || exa --color=always --tree {-1} 2>/dev/null'
 
-typeset -g git_branch_format="git for-each-ref refs/heads refs/remotes --color=always --format='%(color:green)[branch] %(color:reset)%(color:magenta)%(objectname:short)%(color:reset) %(color:yellow)%(authordate:short)%09%(color:reset) %(color:blue)[%(authorname)]%(color:reset)%09%(refname) ' 2> /dev/null"
+typeset -g git_branch_format="git for-each-ref refs/heads refs/remotes --color=always --format='%(color:green)[branch]%09%(color:reset)%(color:yellow)%(refname:short)%(color:reset)%09%(color:magenta)%(authordate:short)%09%(color:reset)%09%(color:blue)[%(authorname)]%(color:reset)' 2> /dev/null | column -t"
 
-typeset -g git_tag_format="git for-each-ref refs/tags --color=always --format='%(color:green)[tag]    %(color:reset)%(color:magenta)%(objectname:short)%(color:reset) %(color:yellow)%(authordate:short) %(color:reset) %(color:blue)[%(authorname)]%(color:reset)%09%(refname) ' 2> /dev/null"
+typeset -g git_tag_format="git for-each-ref refs/tags --color=always --format='%(color:green)[tag]%09%(color:reset)%(color:magenta)%(refname:short)%(color:reset) %(color:yellow)%(authordate:short) %(color:reset) %(color:blue)[%(authorname)]%(color:reset)%09' 2> /dev/null | column -t"
 
-typeset -g git_log_format="git log --color=always --format='%C(green)[commit]%Creset %C(magenta)%h%Creset %C(yellow)%cr %x09%Creset [%C(blue)%an%Creset] %x09%C(auto)%s %d' 2> /dev/null"
+typeset -g git_log_format="git log --color=always --format='%C(green)[commit]  %Creset%C(magenta)%h%Creset %C(yellow)%cr %x09%Creset [%C(blue)%an%Creset] %x09%C(auto)%s %d' 2> /dev/null"
 
 typeset -g -A symbols=()
 
