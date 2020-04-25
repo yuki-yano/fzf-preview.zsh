@@ -45,6 +45,6 @@ symbols+=(
   '(^git rebase( (-i)|(--interactive))?( --autosquash)? $)' git_branch_commit_tag
   '(^git merge $)'                                          git_branch_commit_tag
   '(^git revert $)'                                         git_branch_commit_tag
-  '(^git stash (show|pop|apply|drop) $)'                    git_stash
+  '(^git stash (list|show|pop|apply|drop) $)'               git_stash
   '(^git cherry-pick $)'                                    git_cherry_pick
 )
