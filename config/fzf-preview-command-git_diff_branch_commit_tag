@@ -1,0 +1,29 @@
+#autoload
+
+local id="git_diff_branch_commit_tag"
+local candidate_command="${create_candidate_git_branch_command}"
+local -a fzf_options=(
+  "${FZF_PREVIEW_DEFAULT_SETTING}"
+  "--no-sort"
+  "--ansi"
+  "--prompt='Git Diff> '"
+  "--header='C-b: branch, C-c: commit, C-t: tag, C-r: reflog'"
+  "--preview='git diff --color=always {2}'"
+)
+
+local -a bind=(
+  "${FZF_PREVIEW_DEFAULT_BIND}"
+  "ctrl-b:reload(${create_candidate_git_branch_command})"
+  "ctrl-c:reload(${create_candidate_git_log_command})"
+  "ctrl-t:reload(${create_candidate_git_tag_command})"
+  "ctrl-r:reload(${create_candidate_git_reflog_command})"
+)
+
+fzf_options+=("--bind=\"${(j:,:)bind}\"")
+
+local callback=("awk '{ print \$2 }'")
+
+local complete_func_name="_fzf_complete_${id}"
+complete_func_creator $complete_func_name  "${callback}"
+FZF_COMPLETION_OPTS=${(j: :)fzf_options}
+$complete_func_name "${candidate_command}"
