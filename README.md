@@ -10,6 +10,8 @@ fzf-completion plugin
 
 ## Usage
 
+### Completion
+
 The completion for the configured command is switched to completion using fzf.
 
 Example:
@@ -19,12 +21,37 @@ $ git add <Tab>
 Git Add Files> ...
 ```
 
+### Command and Widget
+
+Some useful fzf-based ZLE widgets are provided.
+
+- fzf-cd
+- fzf-ghq
+- fzf-grep-vscode
+- fzf-history-selection
+
+Default keybind is
+
+```shell
+bindkey '^r'   fzf-history-selection
+bindkey '^x^c' fzf-cd
+bindkey '^x^g' fzf-ghq
+bindkey '^x^v' fzf-grep-vscode
+```
+
+To disable this setting, set FZF_PREVIEW_DISABLE_DEFAULT_BIND to 1.
+
 ## Requirements
 
 - [junegunn/fzf: A command-line fuzzy finder](https://github.com/junegunn/fzf)
+
+### Optional
+
 - [sharkdp/bat: A cat(1) clone with wings.](https://github.com/sharkdp/bat)
 - [ogham/exa: A modern version of ‘ls’.](https://github.com/ogham/exa)
 - [sharkdp/fd: A simple, fast and user-friendly alternative to 'find'](https://github.com/sharkdp/fd)
+- [x-motemen/ghq: Remote repository management made easy](https://github.com/x-motemen/ghq)
+- [Visual Studio Code - Code Editing. Redefined](https://code.visualstudio.com/)
 
 ## Installation
 
@@ -39,7 +66,7 @@ or
 
 ```shell
 $ git clone https://github.com/yuki-ycino/fzf-preview.zsh.git
-$ cat "source /path/to/dir/fzf-preview.zsh"  >> ~/.zshrc
+$ cat "source /path/to/dir/fzf-preview.zsh" >> ~/.zshrc
 ```
 
 ### Add .zshrc
