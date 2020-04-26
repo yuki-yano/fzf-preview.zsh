@@ -1,0 +1,8 @@
+#autoload
+
+local fd_command="fd . --color=always --type=d"
+local fzf_command="fzf --ansi --preview='exa --color=always --tree {}'"
+local command="${fd_command} | ${fzf_command}"
+
+local dir=$(eval $command)
+cd $dir

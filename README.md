@@ -24,6 +24,7 @@ Git Add Files> ...
 - [junegunn/fzf: A command-line fuzzy finder](https://github.com/junegunn/fzf)
 - [sharkdp/bat: A cat(1) clone with wings.](https://github.com/sharkdp/bat)
 - [ogham/exa: A modern version of ‘ls’.](https://github.com/ogham/exa)
+- [sharkdp/fd: A simple, fast and user-friendly alternative to 'find'](https://github.com/sharkdp/fd)
 
 ## Installation
 
@@ -47,7 +48,7 @@ $ cat "source /path/to/dir/fzf-preview.zsh"  >> ~/.zshrc
 bindkey '^i' fzf-or-normal-completion
 ```
 
-## Support
+## Completion
 
 - git
   - add
@@ -83,7 +84,7 @@ FZF_PREVIEW_DISABLE_DEFAULT_SETTING=1 # If you want to disable the default setti
 The default configuration directory is `${XDG_CONFIG_HOME}/fzf-preview.zsh`.
 It is also possible to set `FZF_PREVIEW_USER_CONFIG_DIR`.
 
-Refer to the `fzf-preview.zsh/config` directory and add the `symbol-{foo}` and `command-{foo_bar}` files to the create a new directory in the XDG_CONFIG_HOME/fzf-preview.zsh directory.
+Refer to the `fzf-preview.zsh/config` directory and add the `symbol-{foo}` and `command-{foo_bar}` files to the create a new directory in the `XDG_CONFIG_HOME/fzf-preview.zsh/completion` directory.
 
 The symbol and command are simple zsh scripts.
 Define the command in symbol using an associative array and put the fzf setting in the command file.
@@ -96,7 +97,7 @@ gh example
 #autoload
 
 symbols+=(
-  '(^foo bar? $)' foo_bar
+  '(^foo bar $)' foo_bar
 )
 ```
 

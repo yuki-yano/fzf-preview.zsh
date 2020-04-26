@@ -1,0 +1,8 @@
+#autoload
+
+local ghq_command="ghq list -p | sed -e \"s|$HOME|~|\""
+local fzf_command="fzf --preview='eval bat --color=always {}/README.md 2>/dev/null'"
+local command="${ghq_command} | ${fzf_command}"
+
+local dir=$(eval $command)
+eval cd "${dir}"

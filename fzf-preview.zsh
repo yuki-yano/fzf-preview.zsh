@@ -20,6 +20,14 @@ for f in ${0:h}/src/completion/widget/*(N-.); do
 done
 unset f
 
+fpath+=${0:a:h}/src/widget
+for f in ${0:h}/src/widget/*(N-.); do
+  local function_name="${f:t}"
+  autoload -Uz -- "${function_name}"
+  zle -N -- "${function_name}"
+done
+unset f
+
 if [[ $FZF_PREVIEW_DISABLE_DEFAULT_SETTING -eq 0 ]]; then
   fpath+=${0:a:h}/config
   for f in ${0:h}/config/*(N-.); do
@@ -29,11 +37,13 @@ if [[ $FZF_PREVIEW_DISABLE_DEFAULT_SETTING -eq 0 ]]; then
   unset f
 fi
 
-if [[ $FZF_PREVIEW_USER_CONFIG_DIR != '' ]]; then
-  fpath+=$FZF_PREVIEW_USER_CONFIG_DIR
-  for f in $FZF_PREVIEW_USER_CONFIG_DIR/*(N-.); do
+if [[ "${FZF_PREVIEW_USER_CONFIG_DIR}/completion" != '' ]]; then
+  fpath+="${FZF_PREVIEW_USER_CONFIG_DIR}/completion"
+  for f in ${FZF_PREVIEW_USER_CONFIG_DIR}/completion/*(N-.); do
     local function_name="${f:t}"
     autoload -Uz -- "${function_name}"
   done
 fi
 unset f
+
+source ${0:h}/src/bind.zsh

@@ -1,0 +1,8 @@
+#autoload
+
+local grep_command='rg --line-number --no-heading .'
+local fzf_command='fzf --ansi --multi --prompt="VSCode> " --delimiter=":" --nth=3 --preview="${FZF_PREVIEW_BIN_PATH}/preview_fzf_grep {}" | cut -d':' -f1-2'
+local vscode_command='xargs -I{} code --goto {}'
+local command="${grep_command} | ${fzf_command} | ${vscode_command}"
+
+eval $command
