@@ -1,0 +1,7 @@
+#autoload
+
+typeset -g -A symbols=()
+
+symbols=(
+  '(^(sudo )?kill $)' kill_process
+)
