@@ -26,26 +26,26 @@ typeset -g create_candidate_git_ls_files_command="git ls-files | xargs -I{} echo
 typeset -g -A symbols=()
 
 symbols+=(
-  '(^git add( -p| --patch)* $)'                                   git_add
-  '(^git commit --fixup $)'                                       git_commit
-  '(^git branch( --(merged|remotes))? (-(m|M|d|D))? $)'           git_branch_commit_tag
-  '(^git log( ((-|--)([0-9a-zA-Z\_\.\/\-\=\"\'\'' ])*)*) $)'      git_log
-  '(^git log( ((-|--)([0-9a-zA-Z\_\.\/\-\=\"\'\'' ])*)*)( --) $)' git_ls_files
-  '(^git diff( --color-words)? -- $)'                             git_diff_file
-  '(^git diff( --color-words)? $)'                                git_diff_branch_commit_tag
-  '(^git diff --cached( --color-words)? $)'                       git_diff_cached_branch
-  '(^git reset( --soft| --hard)? $)'                              git_branch_commit_tag
-  '(^git reset -- $)'                                             git_restore
-  '(^git checkout ([0-9a-zA-Z\_\.\/\-]* )?$)'                     git_branch_commit_tag
-  '(^git checkout ([0-9a-zA-Z\_\.\/\-]* )?-- $)'                  git_ls_files
-  '(^git checkout(( -t)|( --track))? $)'                          git_branch_commit_tag
-  '(^git restore $)'                                              git_restore
-  '(^git restore (-s|--source) $)'                                git_branch_commit_tag
-  '(^git restore (-s|--source) ([0-9a-zA-Z\_\.\/\-]+) $)'         git_ls_files
-  '(^git switch $)'                                               git_branch_commit_tag
-  '(^git rebase( (-i)|(--interactive))?( --autosquash)? $)'       git_branch_commit_tag
-  '(^git merge $)'                                                git_branch_commit_tag
-  '(^git revert $)'                                               git_branch_commit_tag
-  '(^git stash (list|show|pop|apply|drop) $)'                     git_stash
-  '(^git cherry-pick $)'                                          git_cherry_pick
+  '(^git add( -p| --patch)* $)'                                        git_add
+  '(^git commit --fixup $)'                                            git_commit
+  '(^git branch( --(merged|remotes))? (-(m|M|d|D))? $)'                git_branch_commit_tag
+  '(^git log( ((-|--)([0-9a-zA-Z\_\.\/\-\=\"\'\'' ])*)*)?(?!( --)) $)' git_log
+  '(^git log( ((-|--)([0-9a-zA-Z\_\.\/\-\=\"\'\'' ])*)*)? -- $)'       git_log_file
+  '(^git diff( --color-words)? -- $)'                                  git_diff_file
+  '(^git diff( --color-words)?(?!( --)) $)'                            git_diff_branch_commit_tag
+  '(^git diff --cached( --color-words)? $)'                            git_diff_cached_branch
+  '(^git reset( --soft| --hard)?(?!( --)) $)'                          git_branch_commit_tag
+  '(^git reset -- $)'                                                  git_restore
+  '(^git checkout $)'                                                  git_branch_commit_tag
+  '(^git checkout ([0-9a-zA-Z\_\.\/\-]+ )?-- $)'                       git_ls_files
+  '(^git checkout(( -t)|( --track))? $)'                               git_branch_commit_tag
+  '(^git restore $)'                                                   git_restore
+  '(^git restore (-s|--source) ([0-9a-zA-Z\_\.\/\-])+ $)'              git_ls_files
+  '(^git restore $)'                                                   git_restore
+  '(^git switch $)'                                                    git_branch_commit_tag
+  '(^git rebase( (-i)|(--interactive))?( --autosquash)? $)'            git_branch_commit_tag
+  '(^git merge $)'                                                     git_branch_commit_tag
+  '(^git revert $)'                                                    git_branch_commit_tag
+  '(^git stash (list|show|pop|apply|drop) $)'                          git_stash
+  '(^git cherry-pick $)'                                               git_cherry_pick
 )

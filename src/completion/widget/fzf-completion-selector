@@ -1,13 +1,15 @@
 #autoload
 
 setopt local_options BASH_REMATCH
+setopt local_options RE_MATCH_PCRE
 
 local command=$1
 local symbol_command="fzf-preview-symbol-${command}"
 local user_symbol_command="symbol-${command}"
 
-local -A symbols
-local symbol regex
+local -a match_symbols=()
+local -a match_regexps=()
+local symbol regexp match_regexp
 
 if whence $symbol_command > /dev/null 2>&1; then
   $symbol_command
@@ -17,12 +19,19 @@ if whence $user_symbol_command > /dev/null 2>&1; then
   $user_symbol_command
 fi
 
-for regex in "${(@k)symbols}"; do
+for regexp in "${(@k)symbols}"; do
   local -a BASH_REMATCH=()
-  [[ $LBUFFER =~ $regex ]]
+  [[ $LBUFFER =~ $regexp ]]
   if [[ ${BASH_REMATCH[1]} != "" ]]; then
-    symbol=$symbols[$regex]
-    break
+    match_regexps+=$regexp
+  fi
+done
+
+local regexp_length=0
+for match_regexp in ${match_regexps[@]}; do
+  if [[ ${#match_regexp} > $regexp_length ]]; then
+    regexp_length=${#match_regexp}
+    symbol=$symbols[$match_regexp]
   fi
 done
 
