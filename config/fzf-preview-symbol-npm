@@ -1,0 +1,7 @@
+#autoload
+
+typeset -g -A symbols=()
+
+symbols+=(
+  '(^npm run #$)' npm_script
+)

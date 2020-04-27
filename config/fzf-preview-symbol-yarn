@@ -1,0 +1,7 @@
+#autoload
+
+typeset -g -A symbols=()
+
+symbols+=(
+  '(^yarn run #$)' npm_script
+)
