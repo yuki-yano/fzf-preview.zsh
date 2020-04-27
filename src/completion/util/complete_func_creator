@@ -5,7 +5,7 @@ local callback=$2
 
 function ${complete_func_name} () {
   local candidate_command=$1
-  _fzf_complete '' "$BUFFER" < <(eval $candidate_command)
+  _fzf_complete '' "$LBUFFER" < <(eval $candidate_command)
   zle reset-prompt
 }
 
