@@ -2,7 +2,12 @@
 
 local fd_command="fd . --color=always --type=d"
 local fzf_command="fzf --ansi --preview='exa --color=always --tree {}'"
+fzf_command+=" ${FZF_PREVIEW_DEFAULT_SETTING}"
+fzf_command+=" --bind='${FZF_PREVIEW_DEFAULT_BIND}'"
 local command="${fd_command} | ${fzf_command}"
 
 local dir=$(eval $command)
-cd $dir
+
+if [[ $dir != "" ]]; then
+  cd $dir
+fi

@@ -2,7 +2,12 @@
 
 local ghq_command="ghq list -p | sed -e \"s|$HOME|~|\""
 local fzf_command="fzf --preview='eval bat --color=always {}/README.md 2>/dev/null'"
+fzf_command+=' ${FZF_PREVIEW_DEFAULT_SETTING}'
+fzf_command+=" --bind='${FZF_PREVIEW_DEFAULT_BIND}'"
 local command="${ghq_command} | ${fzf_command}"
 
 local dir=$(eval $command)
-eval cd "${dir}"
+
+if [[ $dir != "" ]]; then
+  cd $dir
+fi
