@@ -27,7 +27,7 @@ typeset -g -A symbols=()
 
 symbols+=(
   '(^git add( -p| --patch)* $)'                                        git_add
-  '(^git commit --fixup $)'                                            git_commit
+  '(^git commit (--fixup|--squash)( |=)$)'                             git_commit
   '(^git branch( --(merged|remotes))? (-(m|M|d|D))? $)'                git_branch_commit_tag
   '(^git log( ((-|--)([0-9a-zA-Z\_\.\/\-\=\"\'\'' ])*)*)?(?!( --)) $)' git_log
   '(^git log( ((-|--)([0-9a-zA-Z\_\.\/\-\=\"\'\'' ])*)*)? -- $)'       git_log_file
