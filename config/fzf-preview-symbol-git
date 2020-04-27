@@ -31,7 +31,8 @@ symbols+=(
   '(^git branch( --(merged|remotes))? (-(m|M|d|D))? $)'                git_branch_commit_tag
   '(^git log( ((-|--)([0-9a-zA-Z\_\.\/\-\=\"\'\'' ])*)*)?(?!( --)) $)' git_log
   '(^git log( ((-|--)([0-9a-zA-Z\_\.\/\-\=\"\'\'' ])*)*)? -- $)'       git_log_file
-  '(^git diff( --color-words)? ([0-9a-zA-Z\_\.\/\-]+ )?-- $)'          git_diff_file
+  '(^git diff( --color-words)? -- $)'                                  git_diff_file
+  '(^git diff( --color-words)? ([0-9a-zA-Z\_\.\/\^\\\@\-]+ )?-- $)'    git_ls_files
   '(^git diff( --color-words)?(?!( --)) $)'                            git_diff_branch_commit_tag
   '(^git diff --cached( --color-words)? $)'                            git_diff_cached_branch
   '(^git diff --cached( --color-words)? -- $)'                         git_diff_file
