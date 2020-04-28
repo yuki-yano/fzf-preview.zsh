@@ -1,8 +1,8 @@
 #autoload
 
 local grep_command='rg --line-number --no-heading .'
-local fzf_command='fzf $(eval echo $FZF_PREVIEW_DEFAULT_SETTING) --bind="$(eval echo $FZF_PREVIEW_DEFAULT_BIND)" --ansi --multi --prompt="VSCode> " --delimiter=":" --nth=3 --preview="${FZF_PREVIEW_BIN_PATH}/preview_fzf_grep {}" | cut -d':' -f1-2 2>/dev/null'
-local vscode_command='xargs -I{} sh -c "code --reuse-window --goto {}; sleep 1"'
+local fzf_command="fzf ${FZF_PREVIEW_DEFAULT_SETTING} --bind='${FZF_PREVIEW_DEFAULT_BIND}' --ansi --multi --prompt='VSCode> ' --delimiter=':' --nth=3 --preview='${FZF_PREVIEW_BIN_PATH}/preview_fzf_grep {}' | cut -d':' -f1-2 2>/dev/null"
+local vscode_command='xargs -I{} sh -c "code --reuse-window --goto {}; sleep 1t pu"'
 local command="${grep_command} | ${fzf_command} | ${vscode_command}"
 
 eval $command
