@@ -152,3 +152,7 @@ complete_func_creator $complete_func_name "${callback}"
 FZF_COMPLETION_OPTS=${(j: :)fzf_options}
 eval $complete_func_name "\"${candidate_command}\""
 ```
+
+## Related Project
+
+[fzf-zsh-completions](https://github.com/chitoku-k/fzf-zsh-completions)
