@@ -1,7 +1,12 @@
 #autoload
 
 local ghq_command="ghq list -p | sed -e \"s|$HOME|~|\""
-local fzf_command="fzf --preview='eval bat --color=always {}/README.md 2>/dev/null'"
+local fzf_options_="fzf --preview='eval bat --color=always {}/README.md 2>/dev/null'"
+if [[ $TMUX ]]; then
+  local fzf_command="fzf-tmux'${fzf_options_}'"
+else
+  local fzf_command="fzf'${fzf_options_}'"
+fi
 fzf_command+=" ${FZF_PREVIEW_DEFAULT_SETTING}"
 fzf_command+=" --bind='${FZF_PREVIEW_DEFAULT_BIND}'"
 local command="${ghq_command} | ${fzf_command}"

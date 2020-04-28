@@ -1,6 +1,10 @@
 #autoload
 
-local history=$(\history -n -r 1 | fzf --no-sort --query="'$LBUFFER" --prompt="History> ")
+if [[ $TMUX ]]; then
+  local history=$(\history -n -r 1 | fzf-tmux --no-sort --query="'$LBUFFER" --prompt="History> ")
+else
+  local history=$(\history -n -r 1 | fzf --no-sort --query="'$LBUFFER" --prompt="History> ")
+fi
 if [[ $history != "" ]]; then
   BUFFER=$history
   CURSOR=$#BUFFER
