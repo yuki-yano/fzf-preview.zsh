@@ -7,10 +7,8 @@ local -a fzf_options=(
   "--no-sort"
   "--ansi"
   "--prompt='Git Diff> '"
-  "--header='C-b: branch, C-c: commit, C-t: tag, C-r: reflog'"
-  "--preview='git diff --color=always {2}'"
+  "--preview='echo "$ ${BUFFER}"; echo; git diff --color=always {2}'"
 )
-
 local -a bind=(
   "${FZF_PREVIEW_DEFAULT_BIND}"
   "ctrl-b:reload(${create_candidate_git_branch_command})"
@@ -18,12 +16,8 @@ local -a bind=(
   "ctrl-t:reload(${create_candidate_git_tag_command})"
   "ctrl-r:reload(${create_candidate_git_reflog_command})"
 )
-
 fzf_options+=("--bind=\"${(j:,:)bind}\"")
-
+local fzf_command="fzf ${(j: :)fzf_options}"
 local callback=("awk '{ print \$2 }'")
 
-local complete_func_name="_fzf_complete_${id}"
-complete_func_creator $complete_func_name  "${callback}"
-FZF_COMPLETION_OPTS=${(j: :)fzf_options}
-$complete_func_name "${candidate_command}"
+fzf-preview-complete $candidate_command $fzf_command $callback

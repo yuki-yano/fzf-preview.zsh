@@ -1,7 +1,11 @@
 #autoload
 
 local id="git_add"
-local candidate_command="git status --short"
+if whence unbuffer > /dev/null 2>&1; then
+  local candidate_command="unbuffer git status --short"
+else
+  local candidate_command="git status --short"
+fi
 local -a fzf_options=(
   "${FZF_PREVIEW_DEFAULT_SETTING}"
   "--ansi"
@@ -9,16 +13,11 @@ local -a fzf_options=(
   "--prompt='Git Add Files> '"
   "--preview='${git_diff_preview_command}'"
 )
-
 local -a bind=(
   "${FZF_PREVIEW_DEFAULT_BIND}"
 )
-
 fzf_options+=("--bind=\"${(j:,:)bind}\"")
+local fzf_command="fzf ${(j: :)fzf_options}"
+local callback='perl -nle "@arr=split(/ /,\$_);print @arr[\$#arr]"'
 
-local callback=("awk '{if (substr(\$0,2,1) !~ / /) print \$2}'")
-
-local complete_func_name="_fzf_complete_${id}"
-complete_func_creator $complete_func_name  "${callback}"
-FZF_COMPLETION_OPTS=${(j: :)fzf_options}
-$complete_func_name "${candidate_command}"
+fzf-preview-complete $candidate_command $fzf_command $callback

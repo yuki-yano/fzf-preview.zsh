@@ -8,17 +8,11 @@ local -a fzf_options=(
   "--prompt='Npm Script> '"
   "--preview=\"cat package.json | jq -C '[.scripts][][\\\"{}\\\"]'; echo; cat package.json | jq -C .scripts\""
 )
-
 local -a bind=(
   "${FZF_PREVIEW_DEFAULT_BIND}"
 )
-
 fzf_options+=("--bind=\"${(j:,:)bind}\"")
-
+local fzf_command="fzf ${(j: :)fzf_options}"
 local callback=("awk '{ print \$1 }'")
 
-local complete_func_name="_fzf_complete_${id}"
-complete_func_creator $complete_func_name  "${callback}"
-FZF_COMPLETION_OPTS=${(j: :)fzf_options}
-$complete_func_name "${candidate_command}"
-BUFFER=${BUFFER/\#/}
+fzf-preview-complete $candidate_command $fzf_command $callback
