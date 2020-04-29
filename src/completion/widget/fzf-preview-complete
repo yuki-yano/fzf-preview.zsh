@@ -1,0 +1,30 @@
+#autoload
+
+function expand-snippet-and-move-cursor() {
+  LBUFFER+=$result
+  if [[ $#RBUFFER == 0 ]] ; then
+    RBUFFER+=" "
+  fi
+  CURSOR=$#BUFFER
+}
+
+local candidate_command=$1
+local fzf_command=$2
+local callback_command=$3
+local trim_result="tr '\n' ' ' | sed 's/\s*$//'"
+local command="${candidate_command} | ${fzf_command}"
+
+local out=$(eval $command)
+local key=$(echo $out | head -1)
+local line=$(echo $out | sed -e '1d')
+local result=$(echo $line | eval ${callback_command} | eval ${trim_result})
+
+
+if [[ $key == "" ]]; then
+  expand-snippet-and-move-cursor
+elif [[ $key == "ctrl-space" ]]; then
+  expand-snippet-and-move-cursor
+  fzf-completion-selector $snippet_first_token 0
+fi
+
+zle reset-prompt

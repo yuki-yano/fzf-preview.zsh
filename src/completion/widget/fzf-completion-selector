@@ -4,6 +4,7 @@ setopt local_options BASH_REMATCH
 setopt local_options RE_MATCH_PCRE
 
 local command=$1
+local enable_normal_completion=$2
 local symbol_command="fzf-preview-symbol-${command}"
 local user_symbol_command="symbol-${command}"
 
@@ -47,5 +48,7 @@ if [[ $symbol != "" ]]; then
     $user_completion_function
   fi
 else
-  zle expand-or-complete
+  if [[ $enable_normal_completion == 1 ]]; then
+    zle expand-or-complete
+  fi
 fi

@@ -8,4 +8,4 @@ fi
 local tokens=(${(z)BUFFER})
 local command=${tokens[1]}
 
-zle fzf-completion-selector $command
+zle fzf-completion-selector $command 1
