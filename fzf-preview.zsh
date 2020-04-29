@@ -5,6 +5,10 @@ FZF_PREVIEW_CONFIG_DIR="${0:a:h}/config"
 : ${FZF_PREVIEW_DEFAULT_SETTING:='--sync --height="80%" --preview-window="down:60%"'}
 : ${FZF_PREVIEW_DEFAULT_BIND:='ctrl-d:preview-page-down,ctrl-u:preview-page-up,?:toggle-preview'}
 
+FZF_PREVIEW_SNIPPET_CONFIG_DIR="${FZF_PREVIEW_USER_CONFIG_DIR}/snippet"
+FZF_PREVIEW_SNIPPET_EDITOR=${EDITOR:-vim}
+FZF_PREVIEW_SNIPPET_FILE="#{FZF_PREVIEW_USER_CONFIG_DIR}/_snippet"
+
 fpath+=${0:a:h}/src/completion/util
 for f in ${0:h}/src/completion/util/*(N-.); do
   local function_name="${f:t}"
@@ -22,6 +26,14 @@ unset f
 
 fpath+=${0:a:h}/src/widget
 for f in ${0:h}/src/widget/*(N-.); do
+  local function_name="${f:t}"
+  autoload -Uz -- "${function_name}"
+  zle -N -- "${function_name}"
+done
+unset f
+
+fpath+=${0:a:h}/src/snippet
+for f in ${0:h}/src/snippet/*(N-.); do
   local function_name="${f:t}"
   autoload -Uz -- "${function_name}"
   zle -N -- "${function_name}"

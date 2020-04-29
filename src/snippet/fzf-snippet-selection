@@ -1,0 +1,73 @@
+#autoload  ne
+
+function expand-snippet() {
+  local snippet=$1
+  local left_snippet=$(echo $snippet | perl -ne '@arr=split("_\\|_", $_);print @arr[0]')
+  local right_snippet=$(echo $snippet | perl -ne '@arr=split("_\\|_", $_);print @arr[1]')
+  LBUFFER="${left_snippet}"
+  CURSOR=$#BUFFER
+  RBUFFER="${right_snippet} "
+}
+
+function add-expand-snippet() {
+  local snippet=$1
+  local left_snippet=$(echo $snippet | perl -ne '@arr=split("_\\|_", $_);print @arr[0]')
+  local right_snippet=$(echo $snippet | perl -ne '@arr=split("_\\|_", $_);print @arr[1]')
+  LBUFFER+="${left_snippet}"
+  CURSOR=$#BUFFER
+  RBUFFER="${right_snippet} "
+}
+
+if [[ ! -f "${FZF_PREVIEW_SNIPPET_CONFIG_DIR}/_snippets" ]]; then
+  echo "Snippets file(${FZF_PREVIEW_SNIPPET_CONFIG_DIR}/_snippets) does not exist" >&2
+  return
+fi
+
+local grep_command='\grep -v "^#" ${FZF_PREVIEW_SNIPPET_CONFIG_DIR}/_snippets | \grep -v "^\s*$"'
+
+local -a fzf_options=(
+   "${FZF_PREVIEW_DEFAULT_SETTING}"
+   "--query=\"'\""
+   "--delimiter=':'"
+   "--prompt='Snippet> '"
+   "--preview='${BUFFER}; echo; bat ${FZF_PREVIEW_SNIPPET_CONFIG_DIR}/{1} 2>/dev/null'"
+   "--expect='ctrl-a,ctrl-e,ctrl-v,ctrl-space'"
+   "--header='C-a: Add command line, C-e: Edit snippet, C-v: Edit snippet description, C-Space: Direct fzf completion'"
+)
+
+local -a bind=(
+  "${FZF_PREVIEW_DEFAULT_BIND}"
+)
+
+fzf_options+=("--bind=\"${(j:,:)bind}\"")
+local fzf_command="fzf ${fzf_options}"
+
+local command="$grep_command | $fzf_command"
+
+local out=$(eval $command)
+local key=$(echo $out | head -1)
+local line=$(echo $out | head -2 | tail -1)
+local snippet=$(echo $line | perl -ne '@arr=split(/\S+:\s*/,$_);print @arr[1]')
+local snippet_tokens=(${(z)snippet})
+local snippet_first_token=${snippet_tokens[1]}
+
+if [[ $line == "" ]]; then
+  zle reset-prompt
+  return
+fi
+
+if [[ $key == "" ]]; then
+  expand-snippet $snippet
+elif [[ $key == "ctrl-a" ]]; then
+  add-expand-snippet $snippet
+elif [[ $key == "ctrl-space" ]]; then
+  expand-snippet $snippet
+  fzf-completion-selector $snippet_first_token 0
+elif [[ $key == "ctrl-e" ]]; then
+  eval "${FZF_PREVIEW_SNIPPET_EDITOR} ${FZF_PREVIEW_SNIPPET_CONFIG_DIR}/_snippets"
+elif [[ $key == "ctrl-v" ]]; then
+  file=$(echo $line | awk -F':' '{ print $1 }')
+  eval "${FZF_PREVIEW_SNIPPET_EDITOR} ${FZF_PREVIEW_SNIPPET_CONFIG_DIR}/${file}"
+fi
+
+zle reset-prompt
