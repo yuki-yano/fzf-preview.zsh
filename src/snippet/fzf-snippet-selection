@@ -4,18 +4,30 @@ function expand-snippet() {
   local snippet=$1
   local left_snippet=$(echo $snippet | perl -ne '@arr=split("_\\|_", $_);print @arr[0]')
   local right_snippet=$(echo $snippet | perl -ne '@arr=split("_\\|_", $_);print @arr[1]')
-  LBUFFER="${left_snippet}"
-  CURSOR=$#BUFFER
-  RBUFFER="${right_snippet} "
+
+  if [[ $#right_snippet == 0 ]]; then
+    LBUFFER="${left_snippet} "
+    CURSOR=$#BUFFER
+  else
+    LBUFFER="${left_snippet}"
+    CURSOR=$#BUFFER
+    RBUFFER="${right_snippet} "
+  fi
 }
 
 function add-expand-snippet() {
   local snippet=$1
   local left_snippet=$(echo $snippet | perl -ne '@arr=split("_\\|_", $_);print @arr[0]')
   local right_snippet=$(echo $snippet | perl -ne '@arr=split("_\\|_", $_);print @arr[1]')
-  LBUFFER+="${left_snippet}"
-  CURSOR=$#BUFFER
-  RBUFFER="${right_snippet} "
+
+  if [[ $#right_snippet == 0 ]]; then
+    LBUFFER="${left_snippet} "
+    CURSOR=$#BUFFER
+  else
+    LBUFFER="${left_snippet}"
+    CURSOR=$#BUFFER
+    RBUFFER="${right_snippet} "
+  fi
 }
 
 if [[ ! -f "${FZF_PREVIEW_SNIPPET_CONFIG_DIR}/_snippets" ]]; then
