@@ -139,19 +139,14 @@ typeset candidate_command="foo bar"
 typeset -a fzf_options=(
   "${FZF_PREVIEW_DEFAULT_SETTING}"
 )
-
 typeset -a bind=(
   "${FZF_PREVIEW_DEFAULT_BIND}"
 )
-
 fzf_options+=("--bind=\"${(j:,:)bind}\"")
-
+local fzf_command="fzf ${(j: :)fzf_options}"
 typeset callback=("awk '{ print \$1 }'")
 
-typeset complete_func_name="_fzf_complete_${id}"
-complete_func_creator $complete_func_name "${callback}"
-FZF_COMPLETION_OPTS=${(j: :)fzf_options}
-eval $complete_func_name "\"${candidate_command}\""
+fzf-preview-complete $candidate_command $fzf_command $callback
 ```
 
 ## Related Project
