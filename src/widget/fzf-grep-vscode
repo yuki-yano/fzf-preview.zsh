@@ -2,7 +2,7 @@
 
 local grep_command='rg --line-number --no-heading .'
 local fzf_options_="fzf ${FZF_PREVIEW_DEFAULT_SETTING} --bind='${FZF_PREVIEW_DEFAULT_BIND}' --ansi --multi --prompt='VSCode> ' --delimiter=':' --nth=3 --preview='${FZF_PREVIEW_BIN_PATH}/preview_fzf_grep {}' | cut -d':' -f1-2 2>/dev/null"
-if [[ $TMUX && ! $FZF_TMUX_DISABLED = 1 ]]; then
+if [[ $TMUX && $FZF_PREVIEW_ENABLE_TMUX = 1 ]]; then
   local fzf_command="fzf-tmux'${fzf_options_}'"
 else
   local fzf_command="fzf'${fzf_options_}'"

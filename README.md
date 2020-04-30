@@ -39,8 +39,8 @@ bindkey '^x^g' fzf-ghq
 bindkey '^x^v' fzf-grep-vscode
 ```
 
-To use normal fzf in tmux session, set `FZF_TMUX_DISABLED` to 1.
-To disable this setting, set FZF_PREVIEW_DISABLE_DEFAULT_BIND to 1.
+To use fzf-tmux in tmux session, set `FZF_PREVIEW_ENABLE_TMUX` to 1. (Default: 0)
+To disable this setting, set `FZF_PREVIEW_DISABLE_DEFAULT_BIND` to 1.
 
 ## Requirements
 

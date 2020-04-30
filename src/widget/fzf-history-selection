@@ -1,6 +1,6 @@
 #autoload
 
-if [[ $TMUX && ! $FZF_TMUX_DISABLED = 1 ]]; then
+if [[ $TMUX && $FZF_PREVIEW_ENABLE_TMUX = 1 ]]; then
   local history=$(\history -n -r 1 | fzf-tmux --no-sort --query="'$LBUFFER" --prompt="History> ")
 else
   local history=$(\history -n -r 1 | fzf --no-sort --query="'$LBUFFER" --prompt="History> ")

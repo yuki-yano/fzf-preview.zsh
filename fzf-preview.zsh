@@ -4,6 +4,7 @@ FZF_PREVIEW_CONFIG_DIR="${0:a:h}/config"
 : ${FZF_PREVIEW_USER_CONFIG_DIR:="${XDG_CONFIG_HOME:-$HOME/.config}/fzf-preview.zsh"}
 : ${FZF_PREVIEW_DEFAULT_SETTING:='--sync --height="80%" --preview-window="down:60%" --expect="ctrl-space" --header="C-Space: continue fzf completion"'}
 : ${FZF_PREVIEW_DEFAULT_BIND:='ctrl-d:preview-page-down,ctrl-u:preview-page-up,?:toggle-preview'}
+: ${FZF_PREVIEW_ENABLE_TMUX:=0}
 
 FZF_PREVIEW_SNIPPET_CONFIG_DIR="${FZF_PREVIEW_USER_CONFIG_DIR}/snippet"
 FZF_PREVIEW_SNIPPET_EDITOR=${EDITOR:-vim}
