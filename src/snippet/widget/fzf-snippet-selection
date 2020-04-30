@@ -17,6 +17,12 @@ local -a fzf_options=(
    "--header='C-a: Add command line, C-e: Edit snippet, C-v: Edit snippet description, C-Space: Direct fzf completion'"
 )
 
+local tokens=(${(z)LBUFFER})
+
+if [[ $#tokens == 1 ]]; then
+  fzf_options+="--query='${tokens[1]}'"
+fi
+
 local -a bind=(
   "${FZF_PREVIEW_DEFAULT_BIND}"
 )
