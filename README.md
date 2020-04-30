@@ -42,6 +42,10 @@ bindkey '^x^v' fzf-grep-vscode
 To use fzf-tmux in tmux session, set `FZF_PREVIEW_ENABLE_TMUX` to 1. (Default: 0)
 To disable this setting, set `FZF_PREVIEW_DISABLE_DEFAULT_BIND` to 1.
 
+### Snippet
+
+WIP
+
 ## Requirements
 
 - [junegunn/fzf: A command-line fuzzy finder](https://github.com/junegunn/fzf)
