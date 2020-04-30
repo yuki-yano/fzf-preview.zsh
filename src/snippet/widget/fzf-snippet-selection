@@ -12,7 +12,7 @@ local -a fzf_options=(
    "${FZF_PREVIEW_DEFAULT_SETTING}"
    "--delimiter=':'"
    "--prompt='Snippet> '"
-   "--preview='${BUFFER}; echo; bat ${FZF_PREVIEW_SNIPPET_CONFIG_DIR}/{1} 2>/dev/null'"
+   "--preview='echo \"${BUFFER}\"; echo; bat ${FZF_PREVIEW_SNIPPET_CONFIG_DIR}/{1} 2>/dev/null'"
    "--expect='ctrl-a,ctrl-e,ctrl-v,ctrl-space'"
    "--header='C-a: Add command line, C-e: Edit snippet, C-v: Edit snippet description, C-Space: Direct fzf completion'"
 )
