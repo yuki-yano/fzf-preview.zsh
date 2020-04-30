@@ -6,37 +6,21 @@ if [[ ! -f "${FZF_PREVIEW_SNIPPET_CONFIG_DIR}/_snippets" ]]; then
 fi
 
 # ignore comment
-local grep_command='\grep -v "^#" ${FZF_PREVIEW_SNIPPET_CONFIG_DIR}/_snippets | \grep -v "^\s*$"'
-local candidates=$(eval "${grep_command} | awk -F':' '{ print \$1 }'")
-
 local tokens=(${(z)LBUFFER})
 local last_token=${tokens[$#tokens]}
 
-line=$(echo $candidates | grep "^${last_token}$" | head -1)
-if [[ ! $line ]]; then
+if [[ ! $last_token =~ '(^[a-zA-Z1-9\_\-]+$)' ]] ; then
   LBUFFER+=" "
   return
 fi
 
-local -a fzf_options=(
-   "--nth=1"
-   "--exact"
-   "--delimiter=':'"
-   "--filter='${line}'"
-)
-local fzf_command="fzf ${(j: :)fzf_options}"
+local snippet=$(cat ${FZF_PREVIEW_SNIPPET_CONFIG_DIR}/_snippets | perl -F':' -anle "'${last_token}' eq @F[0] ? print @F[1] : print '' " | perl -lne 'print if $_' | head -1 | perl -pe "s/\\s+//")
 
-local command="$grep_command | $fzf_command | sort"
-local out=$(eval $command)
-local line=$(echo $out | head -1)
-
-local snippet=$(echo $line | perl -ne '@arr=split(/\S+:\s*/, $_);print @arr[1]')
-
-if [[ ! $line == "" ]]; then
+if [[ $snippet == "" ]]; then
+  LBUFFER+=" "
+else
   zle backward-kill-word
   expand-snippet $snippet 1
-else
-  LBUFFER+=" "
 fi
 
 zle reset-prompt
