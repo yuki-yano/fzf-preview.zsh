@@ -39,7 +39,8 @@ symbols+=(
   '(^git reset( --soft| --hard)?(?!( --)) $)'               git_branch_commit_tag
   '(^git reset -- $)'                                       git_restore
   '(^git checkout $)'                                       git_branch_commit_tag
-  '(^git checkout( \S*)? -- $)'                             git_ls_files
+  '(^git checkout -- $)'                                    git_add
+  '(^git checkout( \S*) -- $)'                              git_ls_files
   '(^git checkout(( -t)|( --track))? $)'                    git_branch_commit_tag
   '(^git restore $)'                                        git_restore
   '(^git restore (-s|--source) \S+ $)'                      git_ls_files
