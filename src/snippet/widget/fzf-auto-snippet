@@ -7,20 +7,17 @@ fi
 
 # ignore comment
 local tokens=(${(z)LBUFFER})
-local last_token=${tokens[$#tokens]}
+export last_token=${tokens[$#tokens]}
 
-if [[ ! $last_token =~ '(^[a-zA-Z1-9\_\-]+$)' ]] ; then
-  LBUFFER+=" "
-  return
+if [[ $last_token =~ '(^[a-zA-Z1-9\_\-]+$)' ]] ; then
+  local snippet=$(cat ${FZF_PREVIEW_SNIPPET_CONFIG_DIR}/_snippets | perl -ne 'print "$1\n" if /^$ENV{last_token}:\s*(.+)$/' | head -1)
+else
+  local snippet=""
 fi
 
-local snippet=$(cat ${FZF_PREVIEW_SNIPPET_CONFIG_DIR}/_snippets | perl -F':' -anle "'${last_token}' eq @F[0] ? print @F[1] : print '' " | perl -lne 'print if $_' | head -1 | perl -pe "s/\\s+//")
+unset last_token
 
-if [[ $snippet == "" ]]; then
-  LBUFFER+=" "
-else
+if [[ $snippet != "" ]]; then
   zle backward-kill-word
   expand-snippet $snippet 1
 fi
-
-zle reset-prompt

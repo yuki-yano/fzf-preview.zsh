@@ -1,0 +1,4 @@
+#autoload
+
+zle fzf-auto-snippet
+zle accept-line

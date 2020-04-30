@@ -12,14 +12,5 @@ else
   LBUFFER+="${left_snippet}"
 fi
 
-if [[ $#right_snippet == 0 ]]; then
-  LBUFFER+=" "
-fi
-
 # right and cursor
-if [[ $#right_snippet == 0 ]]; then
-  CURSOR=$#BUFFER
-else
-  CURSOR=$#BUFFER
-  RBUFFER="${right_snippet} "
-fi
+CURSOR=$#BUFFER
