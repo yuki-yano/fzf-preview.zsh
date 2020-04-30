@@ -1,0 +1,25 @@
+#autoload
+
+local snippet=$1
+local add_expand=$2
+local left_snippet=$(echo $snippet | perl -ne '@arr=split("_\\|_", $_);print @arr[0]' 2>/dev/null)
+local right_snippet=$(echo $snippet | perl -ne '@arr=split("_\\|_", $_);print @arr[1]' 2>/dev/null)
+
+# reset and add left
+if [[ $add_expand == 0 ]]; then
+  LBUFFER="${left_snippet}"
+else
+  LBUFFER+="${left_snippet}"
+fi
+
+if [[ $#right_snippet == 0 ]]; then
+  LBUFFER+=" "
+fi
+
+# right and cursor
+if [[ $#right_snippet == 0 ]]; then
+  CURSOR=$#BUFFER
+else
+  CURSOR=$#BUFFER
+  RBUFFER="${right_snippet} "
+fi

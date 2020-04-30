@@ -1,45 +1,15 @@
-#autoload  ne
-
-function expand-snippet() {
-  local snippet=$1
-  local left_snippet=$(echo $snippet | perl -ne '@arr=split("_\\|_", $_);print @arr[0]')
-  local right_snippet=$(echo $snippet | perl -ne '@arr=split("_\\|_", $_);print @arr[1]')
-
-  if [[ $#right_snippet == 0 ]]; then
-    LBUFFER="${left_snippet} "
-    CURSOR=$#BUFFER
-  else
-    LBUFFER="${left_snippet}"
-    CURSOR=$#BUFFER
-    RBUFFER="${right_snippet} "
-  fi
-}
-
-function add-expand-snippet() {
-  local snippet=$1
-  local left_snippet=$(echo $snippet | perl -ne '@arr=split("_\\|_", $_);print @arr[0]')
-  local right_snippet=$(echo $snippet | perl -ne '@arr=split("_\\|_", $_);print @arr[1]')
-
-  if [[ $#right_snippet == 0 ]]; then
-    LBUFFER="${left_snippet} "
-    CURSOR=$#BUFFER
-  else
-    LBUFFER="${left_snippet}"
-    CURSOR=$#BUFFER
-    RBUFFER="${right_snippet} "
-  fi
-}
+#autoload
 
 if [[ ! -f "${FZF_PREVIEW_SNIPPET_CONFIG_DIR}/_snippets" ]]; then
   echo "Snippets file(${FZF_PREVIEW_SNIPPET_CONFIG_DIR}/_snippets) does not exist" >&2
   return
 fi
 
+# ignore comment
 local grep_command='\grep -v "^#" ${FZF_PREVIEW_SNIPPET_CONFIG_DIR}/_snippets | \grep -v "^\s*$"'
 
 local -a fzf_options=(
    "${FZF_PREVIEW_DEFAULT_SETTING}"
-   "--query=\"'\""
    "--delimiter=':'"
    "--prompt='Snippet> '"
    "--preview='${BUFFER}; echo; bat ${FZF_PREVIEW_SNIPPET_CONFIG_DIR}/{1} 2>/dev/null'"
@@ -69,9 +39,9 @@ if [[ $line == "" ]]; then
 fi
 
 if [[ $key == "" ]]; then
-  expand-snippet $snippet
+  expand-snippet $snippet 0
 elif [[ $key == "ctrl-a" ]]; then
-  add-expand-snippet $snippet
+  expand-snippet $snippet 1
 elif [[ $key == "ctrl-space" ]]; then
   expand-snippet $snippet
   fzf-completion-selector $snippet_first_token 0

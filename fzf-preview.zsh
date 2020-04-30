@@ -32,8 +32,15 @@ for f in ${0:h}/src/widget/*(N-.); do
 done
 unset f
 
-fpath+=${0:a:h}/src/snippet
-for f in ${0:h}/src/snippet/*(N-.); do
+fpath+=${0:a:h}/src/snippet/util
+for f in ${0:h}/src/snippet/util/*(N-.); do
+  local function_name="${f:t}"
+  autoload -Uz -- "${function_name}"
+done
+unset f
+
+fpath+=${0:a:h}/src/snippet/widget
+for f in ${0:h}/src/snippet/widget/*(N-.); do
   local function_name="${f:t}"
   autoload -Uz -- "${function_name}"
   zle -N -- "${function_name}"
