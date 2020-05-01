@@ -2,22 +2,19 @@
 
 local snippet=$1
 local add_expand=$2
-local left_snippet=$(echo $snippet | perl -ne '@arr=split("_\\|_", $_);print @arr[0]' 2>/dev/null)
-local right_snippet=$(echo $snippet | perl -ne '@arr=split("_\\|_", $_);print @arr[1]' 2>/dev/null)
+local add_after_char=$3
 
-# reset and add left
 if [[ $add_expand == 0 ]]; then
-  LBUFFER="${left_snippet}"
+  BUFFER=$snippet
 else
-  LBUFFER+="${left_snippet}"
+  LBUFFER+=$snippet
 fi
 
-# add right and move cursor
-if [[ $#right_snippet != 0 ]]; then
+zle fzf-snippet-next-placeholder
+
+if [[ $CURSOR == $#BUFFER ]]; then
+  BUFFER+=$add_after_char
   CURSOR=$#BUFFER
-  RBUFFER+="${right_snippet}"
-else
-  LBUFFER+=" "
 fi
 
 zle reset-prompt

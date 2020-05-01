@@ -1,0 +1,11 @@
+#autoload
+
+local pos=$(echo $BUFFER | rg '_|_' --column --no-line-number --only-matching | awk -F: '{ print $1 }' | head -1)
+
+BUFFER=$(echo $BUFFER | perl -pe 's/\_\|\_/$1/' )
+
+if [[ $pos != "" ]]; then
+  CURSOR=$(expr $pos - 1)
+else
+  CURSOR=$#BUFFER
+fi

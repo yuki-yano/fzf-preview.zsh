@@ -40,12 +40,10 @@ if [[ $symbol != "" ]]; then
   local completion_function="fzf-preview-command-${symbol}"
   local user_completion_function="command-${symbol}"
 
-  if whence $completion_function > /dev/null 2>&1; then
-    $completion_function
-  fi
-
   if whence $user_completion_function > /dev/null 2>&1; then
     $user_completion_function
+  elif whence $completion_function > /dev/null 2>&1; then
+    $completion_function
   fi
 else
   if [[ $enable_normal_completion == 1 ]]; then

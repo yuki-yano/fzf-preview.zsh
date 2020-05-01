@@ -5,7 +5,6 @@ if [[ ! -f "${FZF_PREVIEW_SNIPPET_CONFIG_DIR}/_snippets" ]]; then
   return
 fi
 
-# ignore comment
 local tokens=(${(z)LBUFFER})
 export last_token=${tokens[$#tokens]}
 
@@ -19,5 +18,5 @@ unset last_token
 
 if [[ $snippet != "" ]]; then
   zle backward-kill-word
-  expand-snippet $snippet 1
+  expand-snippet $snippet 1 ""
 fi

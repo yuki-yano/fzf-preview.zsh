@@ -5,7 +5,7 @@ function expand-snippet-and-move-cursor() {
   if [[ $#RBUFFER == 0 ]] ; then
     RBUFFER+=" "
   fi
-  CURSOR=$#BUFFER
+  zle fzf-snippet-next-placeholder
 }
 
 local candidate_command=$1
