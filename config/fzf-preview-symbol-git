@@ -31,13 +31,15 @@ symbols+=(
   '(^git branch( --(merged|remotes))? (-(m|M|d|D))? $)'     git_branch_commit_tag
   '(^git log( ((-|--)\S*)*)?(?!( --)) $)'                   git_log
   '(^git log( ((-|--)\S*)*)? -- $)'                         git_log_file
-  '(^git diff( --color-words)? -- $)'                       git_diff_file
-  '(^git diff( --color-words)? (\S+ )?-- $)'                git_ls_files
-  '(^git diff( --color-words)?(?!( --)) $)'                 git_diff_branch_commit_tag
-  '(^git diff --cached( --color-words)? $)'                 git_diff_cached_branch
-  '(^git diff --cached( --color-words)? -- $)'              git_diff_file
-  '(^git reset( --soft| --hard)?(?!( --)) $)'               git_branch_commit_tag
-  '(^git reset -- $)'                                       git_restore
+  '(^git diff( ((-|--)\S*)*)? -- $)'                        git_diff_file
+  '(^git diff( ((-|--)\S*)*)?( \S+)? $)'                    git_branch_commit_tag
+  '(^git diff( ((-|--)\S*)*)?( \S+)? -- $)'                 git_ls_files
+  '(^git diff( ((-|--)\S*)*)?( \S+)?( \S+)? -- $)'          git_ls_files
+  '(^git diff --cached( ((-|--)\S*)*)? $)'                  git_branch_commit_tag
+  '(^git diff --cached( ((-|--)\S*)*)? -- $)'               git_diff_file
+  '(^git diff --cached( ((-|--)\S*)*)?( \S+)? -- $)'        git_ls_files
+  '(^git reset(--mixed| --soft| --hard)?(?!( --)) $)'       git_branch_commit_tag
+  '(^git reset( HEAD)? -- $)'                               git_restore
   '(^git checkout $)'                                       git_branch_commit_tag
   '(^git checkout -- $)'                                    git_add
   '(^git checkout( \S*) -- $)'                              git_ls_files
