@@ -4,6 +4,7 @@ local id="git_branch_commit_tag"
 local candidate_command="${create_candidate_git_branch_command}"
 local -a fzf_options=(
   "${FZF_PREVIEW_DEFAULT_SETTING}"
+  "--no-sort"
   "--ansi"
   "--multi"
   "--prompt='Git Branch Tag Commit> '"
