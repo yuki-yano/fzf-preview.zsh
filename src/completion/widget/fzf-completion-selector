@@ -52,3 +52,5 @@ else
     zle expand-or-complete
   fi
 fi
+
+zle reset-prompt
