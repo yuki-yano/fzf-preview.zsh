@@ -12,5 +12,12 @@ else
   LBUFFER+="${left_snippet}"
 fi
 
-# right and cursor
-CURSOR=$#BUFFER
+# add right and move cursor
+if [[ $#right_snippet != 0 ]]; then
+  CURSOR=$#BUFFER
+  RBUFFER+="${right_snippet}"
+else
+  LBUFFER+=" "
+fi
+
+zle reset-prompt
