@@ -55,6 +55,7 @@ WIP
 - [sharkdp/bat: A cat(1) clone with wings.](https://github.com/sharkdp/bat)
 - [ogham/exa: A modern version of ‘ls’.](https://github.com/ogham/exa)
 - [sharkdp/fd: A simple, fast and user-friendly alternative to 'find'](https://github.com/sharkdp/fd)
+- [BurntSushi/ripgrep: ripgrep recursively searches directories for a regex pattern](https://github.com/BurntSushi/ripgrep/)
 - [x-motemen/ghq: Remote repository management made easy](https://github.com/x-motemen/ghq)
 - [Visual Studio Code - Code Editing. Redefined](https://code.visualstudio.com/)
 
