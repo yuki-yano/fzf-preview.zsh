@@ -35,7 +35,7 @@ local command="$grep_command | $fzf_command"
 local out=$(eval $command)
 local key=$(echo $out | head -1)
 local line=$(echo $out | head -2 | tail -1)
-local snippet=$(echo $line | perl -ne '@arr=split(/\S+:\s*/,$_);print @arr[1]')
+local snippet=$(echo $line | perl -ne '@arr=split(/^\S+?:\s*/,$_);print @arr[1]')
 local snippet_tokens=(${(z)snippet})
 local snippet_first_token=${snippet_tokens[1]}
 
