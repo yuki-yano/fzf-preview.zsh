@@ -1,11 +1,35 @@
 #autoload
 
-local pos=$(echo $BUFFER | rg '_|_' --column --no-line-number --only-matching | awk -F: '{ print $1 }' | head -1)
+local placeholder_count=$(echo $BUFFER | rg '\{\{\S*\}\}' --column --no-line-number --count-matches)
 
-BUFFER=$(echo $BUFFER | perl -pe 's/\_\|\_/$1/' )
+if [[ $placeholder_count -ge 1 ]]; then
+  # Not trailing match
+  local pos=$(echo $BUFFER | rg '\{\{\S*\}\}' --column --no-line-number --only-matching | awk -F: '{ print $1 }' | head -1)
+  local is_placeholder_with_before_space=$(echo $BUFFER | perl -pe 's/\s\{\{\S*\}\}//')
 
-if [[ $pos != "" ]]; then
-  CURSOR=$(expr $pos - 1)
+  # Replace buffer
+  BUFFER=$(echo $BUFFER | perl -pe 's/\{\{\S*\}\}//' | perl -pe 's/(\s\s)\$//')
+
+  if [[ $pos != "" ]]; then
+    if [[ $is_placeholder_with_before_space == "" ]]; then
+      pos=$(expr $pos - 2)
+    else
+      pos=$(expr $pos - 1)
+    fi
+    CURSOR=$pos
+  else
+    CURSOR=$#BUFFER
+  fi
 else
-  CURSOR=$#BUFFER
+  # Trailing match
+  local pos=$(echo $BUFFER | rg '\{\{\S*\}\}' --column --no-line-number --only-matching | awk -F: '{ print $1 }' | head -1)
+
+  BUFFER=$(echo $BUFFER | perl -pe 's/\{\{\S*\}\}//' | perl -pe 's/(\s\s)$//')
+
+  if [[ $pos != "" ]]; then
+    CURSOR=$(expr $pos - 1)
+  else
+    CURSOR=$#BUFFER
+    LBUFFER+=" "
+  fi
 fi

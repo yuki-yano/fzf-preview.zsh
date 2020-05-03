@@ -45,11 +45,11 @@ if [[ $line == "" ]]; then
 fi
 
 if [[ $key == "" ]]; then
-  expand-snippet $snippet 0 " "
+  expand-snippet $snippet 0
 elif [[ $key == "ctrl-a" ]]; then
-  expand-snippet $snippet 1 " "
+  expand-snippet $snippet 1
 elif [[ $key == "ctrl-space" ]]; then
-  expand-snippet $snippet 0 " "
+  expand-snippet $snippet 0
   fzf-completion-selector $snippet_first_token 0
 elif [[ $key == "ctrl-e" ]]; then
   eval "${FZF_PREVIEW_SNIPPET_EDITOR} ${FZF_PREVIEW_SNIPPET_CONFIG_DIR}/_snippets"

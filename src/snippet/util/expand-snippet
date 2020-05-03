@@ -2,7 +2,6 @@
 
 local snippet=$1
 local add_expand=$2
-local add_after_char=$3
 
 if [[ $add_expand == 0 ]]; then
   BUFFER=$snippet
@@ -11,10 +10,5 @@ else
 fi
 
 zle fzf-snippet-next-placeholder
-
-if [[ $CURSOR == $#BUFFER ]]; then
-  BUFFER+=$add_after_char
-  CURSOR=$#BUFFER
-fi
 
 zle reset-prompt

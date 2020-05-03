@@ -18,5 +18,7 @@ unset last_token
 
 if [[ $snippet != "" ]]; then
   zle backward-kill-word
-  expand-snippet $snippet 1 ""
+  expand-snippet $snippet 1
+else
+  LBUFFER+=" "
 fi
