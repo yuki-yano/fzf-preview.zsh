@@ -2,7 +2,7 @@
 
 local id="gh_pr"
 if whence unbuffer > /dev/null 2>&1; then
-  local candidate_command="unbeffer gh pr list --limit 100"
+  local candidate_command="unbuffer gh pr list --limit 100"
 else
   local candidate_command="gh pr list --limit 100"
 fi

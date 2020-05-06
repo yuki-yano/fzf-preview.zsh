@@ -2,7 +2,7 @@
 
 local id="gh_issue"
 if whence unbuffer > /dev/null 2>&1; then
-  local candidate_command="unbeffer gh issue list --limit 100"
+  local candidate_command="unbuffer gh issue list --limit 100"
 else
   local candidate_command="gh issue list --limit 100"
 fi
