@@ -1,5 +1,7 @@
 #autoload
 
+local add_space=$1
+
 if [[ ! -f "${FZF_PREVIEW_SNIPPET_CONFIG_DIR}/_snippets" ]]; then
   echo "Snippets file(${FZF_PREVIEW_SNIPPET_CONFIG_DIR}/_snippets) does not exist" >&2
   return
@@ -19,6 +21,6 @@ unset last_token
 if [[ $snippet != "" ]]; then
   zle backward-kill-word
   expand-snippet $snippet 1
-else
+elif [[ $add_space == 1 ]]; then
   LBUFFER+=" "
 fi
