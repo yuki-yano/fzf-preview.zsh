@@ -5,5 +5,5 @@ if [[ $FZF_PREVIEW_DISABLE_DEFAULT_BINDKEY -eq 0 ]]; then
   bindkey '^x^v' fzf-grep-vscode
   bindkey '^x^c' fzf-cd
   bindkey '^x^g' fzf-ghq
-  bindkey '^x^s' fzf-snippet
+  bindkey '^x^s' fzf-snippet-selection
 fi
