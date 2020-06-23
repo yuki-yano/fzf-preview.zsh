@@ -1,3 +1,9 @@
 #autoload
 
-zle fzf-auto-snippet 1
+local tokens=(${(z)LBUFFER})
+
+if [[ $#tokens == 1 ]]; then
+  zle fzf-auto-snippet 1
+else
+  zle self-insert
+fi

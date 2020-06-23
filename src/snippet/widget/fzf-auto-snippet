@@ -10,7 +10,7 @@ fi
 local tokens=(${(z)LBUFFER})
 export last_token=${tokens[$#tokens]}
 
-if [[ $last_token =~ '(^[a-zA-Z1-9\_\-]+$)' ]] ; then
+if [[ $last_token =~ '(^[a-zA-Z1-9\_\-]+$)' ]]; then
   local snippet=$(cat ${FZF_PREVIEW_SNIPPET_CONFIG_DIR}/_snippets | perl -ne 'print "$1\n" if /^$ENV{last_token}:\s*(.+)$/' | head -1)
 else
   local snippet=""

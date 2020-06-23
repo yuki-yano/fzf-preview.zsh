@@ -1,4 +1,8 @@
 #autoload
 
-zle fzf-auto-snippet
+local tokens=(${(z)LBUFFER})
+
+if [[ $#tokens == 1 ]]; then
+  zle fzf-auto-snippet
+fi
 zle accept-line

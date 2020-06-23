@@ -19,8 +19,8 @@ local -a fzf_options=(
 
 local tokens=(${(z)LBUFFER})
 
-if [[ $#tokens == 1 ]]; then
-  fzf_options+="--query='${tokens[1]}'"
+if [[ $#tokens -ge 1 && $LBUFFER[-1] != " " ]]; then
+  fzf_options+="--query='${tokens[$#tokens]}'"
 fi
 
 local -a bind=(
@@ -45,7 +45,11 @@ if [[ $line == "" ]]; then
 fi
 
 if [[ $key == "" ]]; then
-  expand-snippet $snippet 0
+  if [[ $#tokens == 1 && $LBUFFER[-1] != " " ]]; then
+    expand-snippet $snippet 0
+  else
+    expand-snippet $snippet 1
+  fi
 elif [[ $key == "ctrl-a" ]]; then
   expand-snippet $snippet 1
 elif [[ $key == "ctrl-space" ]]; then
