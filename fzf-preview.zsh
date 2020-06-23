@@ -1,3 +1,5 @@
+function fzf-preview() {}
+
 FZF_PREVIEW_BIN_PATH="${0:a:h}/bin"
 FZF_PREVIEW_CONFIG_DIR="${0:a:h}/config"
 : ${FZF_PREVIEW_DISABLE_DEFAULT_SETTING:=0}

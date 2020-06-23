@@ -47,7 +47,13 @@ if [[ $symbol != "" ]]; then
   fi
 else
   if [[ $enable_normal_completion == 1 ]]; then
-    zle expand-or-complete
+    # zsh-autocomplete
+    # https://github.com/marlonrichert/zsh-autocomplete
+    if zle -l menu-select; then
+      zle menu-select
+    else
+      zle expand-or-complete
+    fi
   fi
 fi
 
