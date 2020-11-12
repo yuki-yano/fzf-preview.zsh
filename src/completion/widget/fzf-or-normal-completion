@@ -1,7 +1,7 @@
 #autoload
 
 if [[ $BUFFER[-1] == $FZF_COMPLETION_TRIGGER && $BUFFER[-2] == " " ]]; then
-  zle fzf-completion
+  zle expand-or-complete
   return
 fi
 
