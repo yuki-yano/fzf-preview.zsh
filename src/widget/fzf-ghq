@@ -15,4 +15,5 @@ local dir=$(eval $command)
 
 if [[ $dir != "" ]]; then
   eval cd $dir
+  zle accept-line
 fi
