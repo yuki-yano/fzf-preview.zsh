@@ -64,7 +64,7 @@ WIP
 ### zinit
 
 ```zsh
-zinit ice lucid wait"0" depth"1" blockf
+zinit ice lucid depth"1" blockf
 zinit light yuki-ycino/fzf-preview.zsh
 ```
 
