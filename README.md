@@ -1,3 +1,9 @@
+# **Deprecated**
+
+This project is deprecated.
+
+Please use [zeno.zsh](https://github.com/yuki-yano/zeno.zsh).
+
 # fzf-preview.zsh
 
 fzf-completion plugin
